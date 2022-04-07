@@ -247,6 +247,7 @@ public class TutorFragment1 extends Fragment {
         });
     }
 
+
     //checking if git is working
 
 }
