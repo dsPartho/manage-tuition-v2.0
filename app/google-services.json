@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "941528516931",
+    "project_id": "managetution",
+    "storage_bucket": "managetution.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:941528516931:android:085174aa1e3b62278607f6",
+        "android_client_info": {
+          "package_name": "com.example.managetution"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "941528516931-dt9690ug3734fp5dd9pvbk31l539otua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRi32y4KXsLDrsR3t9Yvq4_cK5LtrtdRs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "941528516931-dt9690ug3734fp5dd9pvbk31l539otua.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
