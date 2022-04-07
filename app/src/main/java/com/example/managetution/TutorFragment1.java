@@ -144,7 +144,7 @@ public class TutorFragment1 extends Fragment {
         String currentSem = regCurrentSem.getText().toString();
         String contactInfo = contactNo.getText().toString();
 
-        /*if(firstname.isEmpty()){
+        if(firstname.isEmpty()){
             firstName.setError("FullName is Required");
             Toast.makeText(getContext(), "Please fill up the fields", Toast.LENGTH_SHORT).show();
             return;
@@ -153,7 +153,7 @@ public class TutorFragment1 extends Fragment {
             lastName.setError("UserName is Required");
             Toast.makeText(getContext(), "Please fill up the fields", Toast.LENGTH_SHORT).show();
             return;
-        }*/
+        }
         if(email.isEmpty()){
             regEmail.setError("Email is Required");
             Toast.makeText(getContext(), "Please fill up the fields", Toast.LENGTH_SHORT).show();
@@ -234,5 +234,5 @@ public class TutorFragment1 extends Fragment {
             }
         });
     }
-    
+
 }
