@@ -195,18 +195,6 @@ public class TutorFragment1 extends Fragment {
             return;
         }*/
 
-       /* mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                   // Toast.makeText(getContext(), "User created Successfully", Toast.LENGTH_SHORT).show();
-                    //startActivity(new Intent(getContext(), Home.class));
-                }
-                else{
-                    Toast.makeText(getContext(), "ERROOOORRRRR signup" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });*/
         mAuth.createUserWithEmailAndPassword(email,pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
@@ -246,8 +234,5 @@ public class TutorFragment1 extends Fragment {
             }
         });
     }
-
-
-    //checking if git is working
-
+    
 }
