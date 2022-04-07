@@ -18,9 +18,12 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -38,6 +41,7 @@ public class TutorFragment1 extends Fragment {
     private ProgressBar progressBar;
 
     FirebaseAuth mAuth;
+    FirebaseUser firebaseUser;
     FirebaseDatabase rootNode;
     DatabaseReference reference;
 
@@ -191,16 +195,54 @@ public class TutorFragment1 extends Fragment {
             return;
         }*/
 
-        mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+       /* mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(getContext(), "User created Successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getContext(), Home.class));
+                   // Toast.makeText(getContext(), "User created Successfully", Toast.LENGTH_SHORT).show();
+                    //startActivity(new Intent(getContext(), Home.class));
                 }
                 else{
                     Toast.makeText(getContext(), "ERROOOORRRRR signup" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
+            }
+        });*/
+        mAuth.createUserWithEmailAndPassword(email,pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+                firebaseUser = mAuth.getCurrentUser();
+                firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(getActivity(), "Plz verify email !!", Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(getActivity(), LoginActivity.class);
+                            i.setFlags( Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(i);
+                        }else{
+                            Toast.makeText(getActivity(),task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+                String userId = firebaseUser.getUid();
+                TutorUsers tutorUsers = new TutorUsers(firstname,lastname,email,pass,institution,male,female,batch,academicYear,contactInfo);
+                FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("TutorUser").child(userId).setValue(tutorUsers).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(getActivity(), "database inserted", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "databse not working", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getActivity(), "Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
