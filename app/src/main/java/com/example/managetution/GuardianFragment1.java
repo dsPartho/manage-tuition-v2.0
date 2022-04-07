@@ -178,7 +178,6 @@ public class GuardianFragment1 extends Fragment {
             gender = "female";
         }
         String finalGender = gender;
-        
         mAuth.createUserWithEmailAndPassword(s_email,s_pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {

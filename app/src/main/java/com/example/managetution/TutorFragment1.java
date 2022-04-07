@@ -195,6 +195,15 @@ public class TutorFragment1 extends Fragment {
             return;
         }*/
 
+        String gender = "";
+        if(maleBtn.isChecked()){
+            gender = "male";
+        }
+        else{
+            gender = "female";
+        }
+        String finalGender = gender;
+
         mAuth.createUserWithEmailAndPassword(email,pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
@@ -213,8 +222,9 @@ public class TutorFragment1 extends Fragment {
 
                     }
                 });
+
                 String userId = firebaseUser.getUid();
-                TutorUsers tutorUsers = new TutorUsers(firstname,lastname,email,pass,institution,male,female,batch,academicYear,contactInfo);
+                TutorUsers tutorUsers = new TutorUsers(firstname,lastname,email,pass,institution,finalGender,batch,academicYear,contactInfo);
                 FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("TutorUser").child(userId).setValue(tutorUsers).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

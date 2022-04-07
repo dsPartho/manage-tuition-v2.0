@@ -1,21 +1,19 @@
 package com.example.managetution;
 
 public class TutorUsers {
-        private String firstname,lastname,email,pass,institution,male,female,batch,academicYear,contactInfo;
+        private String firstname,lastname,email,pass,institution,gender,batch,academicYear,contactInfo;
 
         public TutorUsers() {
 
         }
 
-        public TutorUsers(String firstname, String lastname, String email, String pass, String institution, String male, String female, String batch, String academicYear, String contactInfo) {
+        public TutorUsers(String firstname, String lastname, String email, String pass, String institution, String gender, String batch, String academicYear, String contactInfo) {
             this.firstname = firstname;
             this.lastname = lastname;
             this.email = email;
             this.pass = pass;
             this.institution = institution;
-            this.male = male;
-            this.female = female;
-            this.batch = batch;
+            this.gender = gender;
             this.academicYear = academicYear;
             this.contactInfo = contactInfo;
         }
@@ -60,21 +58,14 @@ public class TutorUsers {
             this.institution = institution;
         }
 
-        public String getMale() {
-            return male;
+        public String getGender() {
+            return gender;
         }
 
-        public void setMale(String male) {
-            this.male = male;
+        public void setGender(String gender) {
+            this.gender =gender;
         }
 
-        public String getFemale() {
-            return female;
-        }
-
-        public void setFemale(String female) {
-            this.female = female;
-        }
 
         public String getBatch() {
             return batch;
