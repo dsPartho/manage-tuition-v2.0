@@ -81,11 +81,11 @@ public class Post_Fragment extends Fragment {
                             username = firstName +" " + lastName;
                             //String username = "sagar";
                             PostSaveDetails postSaveData = new PostSaveDetails(current_User,curDate,curTime,postDetails,username);
-                            FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("GuardianUser").child(current_User).child("post").child(current_User+dateTime).setValue(postSaveData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("post").child(current_User+dateTime).setValue(postSaveData).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        Toast.makeText(getActivity(),"postData inserted into databasse",Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(getActivity(),"postData inserted into databasse",Toast.LENGTH_SHORT).show();
                                         Intent newIntent = new Intent(getActivity(),Home.class);
                                         newIntent .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(newIntent);

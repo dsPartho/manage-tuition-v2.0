@@ -85,4 +85,12 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
     }
+    //@Override
+   /* protected void onStart() {
+        super.onStart();
+        if(mAuth.getCurrentUser()!= null){
+            startActivity(new Intent(getApplicationContext(),Home.class));
+            finish();
+        }
+    }*/
 }

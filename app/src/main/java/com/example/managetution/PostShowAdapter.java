@@ -32,8 +32,8 @@ public class PostShowAdapter extends RecyclerView.Adapter<PostShowAdapter.postSh
         holder.image.setImageResource(R.drawable.ic_baseline_profile_24);
         holder.username.setText(dataPostArraylist.get(position).getUsername());
         holder.hasUpdated.setText("Has updated a Tuition Post");
-        holder.date.setText(dataPostArraylist.get(position).getDate());
-        holder.time.setText(dataPostArraylist.get(position).getTime());
+        holder.date.setText(" " +dataPostArraylist.get(position).getDate());
+        holder.time.setText(" " + dataPostArraylist.get(position).getTime());
         holder.postDetails.setText(dataPostArraylist.get(position).getPostDetails());
     }
 

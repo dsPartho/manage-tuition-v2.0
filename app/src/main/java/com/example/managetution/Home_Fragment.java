@@ -1,9 +1,11 @@
 package com.example.managetution;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +32,7 @@ public class Home_Fragment extends Fragment {
     private FirebaseUser firebaseUser;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private Button sendTuitionRequestButton;
 
     @Nullable
     @Override
@@ -38,10 +41,11 @@ public class Home_Fragment extends Fragment {
         postShowRecyclerView = view.findViewById(R.id.home_recyclerview_id);
         postShowRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAuth = FirebaseAuth.getInstance();
+        sendTuitionRequestButton = view.findViewById(R.id.sendtuitionrequestbuttonId);
         firebaseUser = mAuth.getCurrentUser();
         String userId = firebaseUser.getUid();
         firebaseDatabase = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        databaseReference = firebaseDatabase.getReference("GuardianUser").child(userId).child("post");
+        databaseReference = firebaseDatabase.getReference("post");
         dataPostShowArrayList = new ArrayList<>();
         postShowRecyclerView.setAdapter(new PostShowAdapter(dataPostShowArrayList)) ;
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -69,6 +73,12 @@ public class Home_Fragment extends Fragment {
 
             }
         });
+        /*sendTuitionRequestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = ;
+            }
+        });*/
 
        /* PostShowDataModel postShowDataModel = new PostShowDataModel("11-12-19","04:30","Tutor Needed class 9 Salary 8K","Sagar");
         dataPostShowArrayList.add(postShowDataModel);
