@@ -178,6 +178,7 @@ public class GuardianFragment1 extends Fragment {
             gender = "female";
         }
         String finalGender = gender;
+        String role = "Guardian";
         mAuth.createUserWithEmailAndPassword(s_email,s_pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
@@ -197,7 +198,7 @@ public class GuardianFragment1 extends Fragment {
                     }
                 });
                 String userId = firebaseUser.getUid();
-                GuardianUsers guardianUsers = new GuardianUsers(firstname,lastname, s_email,s_pass,s_location, finalGender, contactInfo);
+                GuardianUsers guardianUsers = new GuardianUsers(role, firstname,lastname, s_email,s_pass,s_location, finalGender, contactInfo);
                 FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("GuardianUser").child(userId).setValue(guardianUsers).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

@@ -1,13 +1,14 @@
 package com.example.managetution;
 
 public class GuardianUsers {
-    private String firstname,lastname,email,pass,location,gender, phoneNo;
+    private String role,firstname,lastname,email,pass,location,gender, phoneNo;
 
     public GuardianUsers(){
 
     }
 
-    public GuardianUsers(String firstname, String lastname, String email, String pass, String location, String gender, String phoneNo) {
+    public GuardianUsers(String role,String firstname, String lastname, String email, String pass, String location, String gender, String phoneNo) {
+        this.role = role;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -15,6 +16,14 @@ public class GuardianUsers {
         this.location = location;
         this.gender = gender;
         this.phoneNo = phoneNo;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getFirstname() {

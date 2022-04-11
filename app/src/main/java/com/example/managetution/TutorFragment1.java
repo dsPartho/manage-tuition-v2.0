@@ -203,6 +203,7 @@ public class TutorFragment1 extends Fragment {
             gender = "female";
         }
         String finalGender = gender;
+        String role = "Tutor";
 
         mAuth.createUserWithEmailAndPassword(email,pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
@@ -224,7 +225,7 @@ public class TutorFragment1 extends Fragment {
                 });
 
                 String userId = firebaseUser.getUid();
-                TutorUsers tutorUsers = new TutorUsers(firstname,lastname,email,pass,institution,finalGender,batch,academicYear,contactInfo);
+                TutorUsers tutorUsers = new TutorUsers(role,firstname,lastname,email,pass,institution,finalGender,batch,academicYear,contactInfo);
                 FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("TutorUser").child(userId).setValue(tutorUsers).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

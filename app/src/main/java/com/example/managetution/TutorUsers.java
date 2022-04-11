@@ -1,13 +1,14 @@
 package com.example.managetution;
 
 public class TutorUsers {
-        private String firstname,lastname,email,pass,institution,gender,batch,academicYear,contactInfo;
+        private String role, firstname,lastname,email,pass,institution,gender,batch,academicYear,contactInfo;
 
         public TutorUsers() {
 
         }
 
-        public TutorUsers(String firstname, String lastname, String email, String pass, String institution, String gender, String batch, String academicYear, String contactInfo) {
+        public TutorUsers(String role, String firstname, String lastname, String email, String pass, String institution, String gender, String batch, String academicYear, String contactInfo) {
+            this.role = role;
             this.firstname = firstname;
             this.lastname = lastname;
             this.email = email;
@@ -17,6 +18,14 @@ public class TutorUsers {
             this.academicYear = academicYear;
             this.contactInfo = contactInfo;
         }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String firstname) {
+        this.role = role;
+    }
 
         public String getFirstname() {
             return firstname;
