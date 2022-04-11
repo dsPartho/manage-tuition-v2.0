@@ -86,7 +86,7 @@ public class Post_Fragment extends Fragment {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
                                         //Toast.makeText(getActivity(),"postData inserted into databasse",Toast.LENGTH_SHORT).show();
-                                        Intent newIntent = new Intent(getActivity(),Home.class);
+                                        Intent newIntent = new Intent(getActivity(),Home_Guardian.class);
                                         newIntent .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(newIntent);
                                     }

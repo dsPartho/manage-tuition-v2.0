@@ -17,7 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Home extends AppCompatActivity {
+public class Home_Guardian extends AppCompatActivity {
 
     Button btnLogout;
     FirebaseAuth mAuth;
@@ -25,7 +25,7 @@ public class Home extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home);
+        setContentView(R.layout.activity_guardian_home);
 
        /* btnLogout = findViewById(R.id.logout);
         mAuth = FirebaseAuth.getInstance();
