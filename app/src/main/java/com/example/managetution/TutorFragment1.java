@@ -1,5 +1,7 @@
 package com.example.managetution;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -215,6 +218,20 @@ public class TutorFragment1 extends Fragment {
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(getActivity(), "Plz verify email !!", Toast.LENGTH_SHORT).show();
+
+                            //Set User Display Name
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName("Tutor").build();
+                            firebaseUser.updateProfile(profileUpdates)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "User profile updated.");
+                                            }
+                                        }
+                                    });
+                            //
                             Intent i = new Intent(getActivity(), LoginActivity.class);
                             i.setFlags( Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(i);
@@ -232,9 +249,6 @@ public class TutorFragment1 extends Fragment {
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(getActivity(), "database inserted", Toast.LENGTH_SHORT).show();
-                            //Set User Display Name
-                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName("Tutor").build();
                         }
                         else{
                             Toast.makeText(getActivity(), "database not working", Toast.LENGTH_SHORT).show();
