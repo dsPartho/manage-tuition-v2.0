@@ -1,18 +1,19 @@
 package com.example.managetution;
 
 public class PostSaveDetails {
-    private String userId, date,time,postDetails,username;
+    private String userId, date,time,postDetails,username,dateTime;
 
     public PostSaveDetails() {
 
     }
 
-    public PostSaveDetails(String userId, String date, String time, String postDetails, String username) {
+    public PostSaveDetails(String userId, String date, String time, String postDetails, String username,String dateTime) {
         this.userId = userId;
         this.date = date;
         this.time = time;
         this.postDetails = postDetails;
         this.username = username;
+        this.dateTime = dateTime;
     }
 
     public String getUserId() {
@@ -53,5 +54,13 @@ public class PostSaveDetails {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
 }

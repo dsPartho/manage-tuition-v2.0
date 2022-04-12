@@ -80,7 +80,7 @@ public class Post_Fragment extends Fragment {
                            lastName =  guardianUsers.getLastname();
                             username = firstName +" " + lastName;
                             //String username = "sagar";
-                            PostSaveDetails postSaveData = new PostSaveDetails(current_User,curDate,curTime,postDetails,username);
+                            PostSaveDetails postSaveData = new PostSaveDetails(current_User,curDate,curTime,postDetails,username,dateTime);
                             FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("post").child(current_User+dateTime).setValue(postSaveData).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

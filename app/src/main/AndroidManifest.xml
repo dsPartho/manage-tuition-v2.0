@@ -22,7 +22,7 @@
         </activity>
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".SignUp"></activity>
-        <activity android:name=".Home_Guardian"></activity>
+       <activity android:name=".Home_Guardian"></activity>
         <activity android:name=".SampleLogOut"></activity>
     </application>
 
