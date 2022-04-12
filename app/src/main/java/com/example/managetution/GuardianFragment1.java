@@ -45,6 +45,7 @@ public class GuardianFragment1 extends Fragment {
     FirebaseUser firebaseUser;
     FirebaseDatabase rootNode;
     DatabaseReference reference;
+    String userId;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -216,8 +217,9 @@ public class GuardianFragment1 extends Fragment {
 
                     }
                 });
-                String userId = firebaseUser.getUid();
+                userId = firebaseUser.getUid();
                 GuardianUsers guardianUsers = new GuardianUsers(role, firstname,lastname, s_email,s_pass,s_location, finalGender, contactInfo);
+                SignInData signInData = new SignInData(s_email,s_pass,role);
                 FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("GuardianUser").child(userId).setValue(guardianUsers).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -230,6 +232,23 @@ public class GuardianFragment1 extends Fragment {
                         }
                     }
                 });
+                FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("SignInData").child(userId).setValue(signInData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            //Toast.makeText(getActivity(), "database inserted in sign in", Toast.LENGTH_SHORT).show();
+
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "databse not working", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -237,6 +256,7 @@ public class GuardianFragment1 extends Fragment {
                 Toast.makeText(getActivity(), "Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
 
     }
 }

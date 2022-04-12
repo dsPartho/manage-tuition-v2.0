@@ -30,7 +30,7 @@ public class MainActivity extends android.app.Activity {
         FirebaseUser fUser = mAuth.getCurrentUser();
 
 
-        if(fUser != null)
+        /*if(fUser != null)
         {
             String showUser  = fUser.getDisplayName();
             System.out.println("\nDisplay Name=\n"+showUser);
@@ -44,7 +44,7 @@ public class MainActivity extends android.app.Activity {
             }
             else {
                 Toast.makeText(getApplicationContext(), "Tutor Page a DHukse", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(MainActivity.this, SampleLogOut.class);
+                Intent intent = new Intent(MainActivity.this, Home_Tutor.class);
                 intent.putExtra("logging_check", "student_LoggedIn");
 
                 startActivity(intent);
@@ -55,7 +55,7 @@ public class MainActivity extends android.app.Activity {
         {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
-        }
+        }*/
     }
 
 }

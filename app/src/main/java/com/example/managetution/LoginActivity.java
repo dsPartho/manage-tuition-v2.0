@@ -17,6 +17,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
@@ -25,8 +30,11 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout logemail, logpass;
     EditText email, pass;
     Button btnLogIn;
+    String current_User_Id,user_role;
+    DatabaseReference userDatabaseReference;
     TextView btnSignUp;
     FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
         btnLogIn = findViewById(R.id.btnLogin);
         btnSignUp = findViewById(R.id.txtSignUp);
         mAuth = FirebaseAuth.getInstance();
+
+
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,10 +85,46 @@ public class LoginActivity extends AppCompatActivity {
             mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, Home_Guardian.class));
+                    if(task.isSuccessful()  ){
+                        current_User_Id = mAuth.getCurrentUser().getUid();
+                        userDatabaseReference = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("SignInData").child(current_User_Id);
+                        userDatabaseReference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                SignInData signInDataInformation = snapshot.getValue(SignInData.class);
+                                user_role = signInDataInformation.getRole();
+                                System.out.println(user_role);
+                                if((user_role.equals("Guardian"))){
+                                    Toast.makeText(LoginActivity.this, "Guardian Login Successful", Toast.LENGTH_SHORT).show();
+                                    //startActivity(new Intent(getApplicationContext(), Home_Guardian.class));
+                                    Intent i = new Intent(LoginActivity.this, com.example.managetution.Home_Guardian.class);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+                                    startActivity(i);
+
+                                }
+                                if((user_role.equals("Tutor")) ){
+                                    Toast.makeText(LoginActivity.this, "Tutor Login Successful", Toast.LENGTH_SHORT).show();
+                                    // startActivity(new Intent(getApplicationContext(), ));
+                                    Intent i = new Intent(LoginActivity.this, com.example.managetution.Home_Tutor.class);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+                                    startActivity(i);
+
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+
+                        });
+
+
+
+
+
+
                     }
+
                     else{
                         Toast.makeText(LoginActivity.this, "Login UnSuccessful" +task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }

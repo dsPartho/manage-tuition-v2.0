@@ -49,6 +49,7 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
     @Override
     public postShowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_post,parent,false);
+
         return  new postShowViewHolder(view);
     }
 
@@ -80,6 +81,8 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
                 public void onClick(View view) {
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Chat_Fragment()).commit();
+
+                   // itemView.setTag(vie);
                 }
             });
         }

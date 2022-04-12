@@ -48,6 +48,7 @@ public class TutorFragment1 extends Fragment {
     FirebaseUser firebaseUser;
     FirebaseDatabase rootNode;
     DatabaseReference reference;
+    String userId;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -242,8 +243,10 @@ public class TutorFragment1 extends Fragment {
                     }
                 });
 
-                String userId = firebaseUser.getUid();
+                userId = firebaseUser.getUid();
                 TutorUsers tutorUsers = new TutorUsers(role,firstname,lastname,email,pass,institution,finalGender,batch,academicYear,contactInfo);
+                SignInData signInData = new SignInData(email,pass,role);
+
                 FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("TutorUser").child(userId).setValue(tutorUsers).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -253,6 +256,22 @@ public class TutorFragment1 extends Fragment {
                         else{
                             Toast.makeText(getActivity(), "database not working", Toast.LENGTH_SHORT).show();
                         }
+                    }
+                });
+                FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("SignInData").child(userId).setValue(signInData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                           // Toast.makeText(getActivity(), "database inserted in sigindata", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "database not working", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
