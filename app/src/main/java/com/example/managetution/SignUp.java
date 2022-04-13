@@ -21,9 +21,7 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        getSupportActionBar().hide();
-
-        getSupportActionBar().hide();   // to Hide action bar
+        //getSupportActionBar().hide();   // to Hide action bar
 
 
         tabLayout = findViewById(R.id.tab_layout);

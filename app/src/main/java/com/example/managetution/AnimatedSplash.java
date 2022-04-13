@@ -23,7 +23,7 @@ public class AnimatedSplash extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_animated_splash);
 
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
 
         app_name = findViewById(R.id.textView);
         slogan = findViewById(R.id.textView2);

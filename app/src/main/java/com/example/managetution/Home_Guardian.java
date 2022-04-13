@@ -1,26 +1,31 @@
 package com.example.managetution;
 
-import android.app.Notification;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.material.navigation.NavigationView;
 
 public class Home_Guardian extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     BottomNavigationView btmNavView;
+
+    //Variables (Partho)
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
+    //sagar
+    ActionBarDrawerToggle Toggle;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -28,12 +33,35 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
 
         setContentView(R.layout.activity_guardian_home);
         loadFragments(new Home_Fragment());
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Manage Tuition");
 
-        btmNavView = findViewById(R.id.bottom_Nav);
+        btmNavView = findViewById(R.id.bottom_nav);
+        // btmNavView.setOnNavigationItemSelectedListener(NavigationView);
         btmNavView.setSelectedItemId(R.id.home_bottom_nav);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.top_nav);
+
         btmNavView.setOnNavigationItemSelectedListener(this);
 
+        /* ------- ToolBAR ----------*/
+        setSupportActionBar(toolbar);
+
+        /* -------------- Navigation Drawer Menu ---*/
+        navigationView.bringToFront();
+         Toggle = new ActionBarDrawerToggle( this, drawerLayout, toolbar,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(Toggle);
+        Toggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // drawerLayout.closeDrawer(GravityCompat.START);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                return false;
+            }
+        });
 
     }
 
@@ -47,20 +75,32 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
 
     @Override
     public void onBackPressed() {
-        if(btmNavView.getSelectedItemId() == R.id.home_bottom_nav){
+//        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+//            drawerLayout.closeDrawer(GravityCompat.START);
+//        }
+//        else{
+//            super.onBackPressed();
+//        }
+        if(btmNavView.getSelectedItemId() == R.id.home_bottom_nav && drawerLayout.isDrawerOpen(GravityCompat.START)){
+            Toast.makeText(getApplicationContext(),"FIRST CONDITION", Toast.LENGTH_LONG).show();
+            drawerLayout.closeDrawer(GravityCompat.START);
+            btmNavView.setSelectedItemId(R.id.home_bottom_nav);
+        }
+        else if(btmNavView.getSelectedItemId() == R.id.home_bottom_nav &&(!drawerLayout.isDrawerOpen(GravityCompat.START)) ){
+            Toast.makeText(getApplicationContext(),"IF CONDITION", Toast.LENGTH_LONG).show();
             super.onBackPressed();
             finish();
         }
         else{
+            Toast.makeText(getApplicationContext(),"ELSE CONDITION", Toast.LENGTH_LONG).show();
+            drawerLayout.closeDrawer(GravityCompat.START);
             btmNavView.setSelectedItemId(R.id.home_bottom_nav);
         }
-
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;
-
         switch (item.getItemId()){
             case R.id.notification_bottom_nav:
                 fragment = new Notification_Fragment();
@@ -78,6 +118,7 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
                 item.setChecked(true);
                 break;
 
+
             case R.id.home_bottom_nav:
                 fragment = new Home_Fragment();
                 item.setChecked(true);
@@ -85,5 +126,14 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
         }
         return loadFragments(fragment);
     }
+   /* @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if(Toggle.onOptionsItemSelected(item)){
+            return  true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }*/
 
 }

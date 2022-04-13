@@ -74,7 +74,7 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
             date = itemView.findViewById(R.id.post_date_id);
             time = itemView.findViewById(R.id.post_time_id);
             postDetails = itemView.findViewById(R.id.user_post_details_id);
-            btmNav = itemView.findViewById(R.id.bottom_Nav);
+            //btmNav = itemView.findViewById(R.id.bo);
             sendTuitionRequestButton = itemView.findViewById(R.id.sendtuitionrequestbuttonId);
             sendTuitionRequestButton.setOnClickListener(new View.OnClickListener() {
                 @Override

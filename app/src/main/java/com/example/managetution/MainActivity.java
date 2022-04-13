@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             }
         });*/
 
-         btmNavView = findViewById(R.id.bottom_Nav);
+        // btmNavView = findViewById(R.id.bottom_Nav);
         // btmNavView.setOnNavigationItemSelectedListener(NavigationView);
         btmNavView.setSelectedItemId(R.id.home_bottom_nav);
 
