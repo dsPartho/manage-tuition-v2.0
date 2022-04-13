@@ -100,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent i = new Intent(LoginActivity.this, com.example.managetution.Home_Guardian.class);
                                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
                                     startActivity(i);
+                                    finish();
 
                                 }
                                 if((user_role.equals("Tutor")) ){
@@ -108,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent i = new Intent(LoginActivity.this, com.example.managetution.Home_Tutor.class);
                                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
                                     startActivity(i);
+                                    finish();
 
                                 }
                             }
@@ -139,4 +141,9 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
     }*/
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

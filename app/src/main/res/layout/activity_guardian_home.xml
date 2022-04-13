@@ -6,39 +6,60 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/blue"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme">
 
-    <!-- Added top menu navigation view here (Partho) -->
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:src="@drawable/ic_baseline_menu_open_24">
 
-<!--    <com.google.android.material.navigation.NavigationView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:id="@+id/nav_top_view"-->
-<!--        app:headerLayout="@layout/top_menu_header"-->
-<!--        app:menu="@menu/top_menu">-->
+        </ImageView>
 
-<!--    </com.google.android.material.navigation.NavigationView>-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage tuition"
+            android:textSize="35sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/aclonica">
+
+        </TextView>
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_baseline_search_24"
+            android:layout_gravity="right"
+            >
+
+        </ImageView>
+    </androidx.appcompat.widget.Toolbar>
+
+
+     <!--Added top menu navigation view here (Partho) -->
+
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/nav_top_view"
+        app:headerLayout="@layout/top_menu_header"
+        app:menu="@menu/top_menu">
+
+    </com.google.android.material.navigation.NavigationView>
 
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_Nav">
+        android:layout_above="@+id/bottom_Nav"
+        android:layout_below="@+id/toolbar">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@color/blue"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme">
-
-            <ImageView
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:src="@drawable/ic_baseline_menu_open_24">
-
-            </ImageView>
-        </androidx.appcompat.widget.Toolbar>
     </FrameLayout>
 
 
