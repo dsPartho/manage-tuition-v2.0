@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ManageTution">
         <activity
-            android:name=".LoginActivity"
+            android:name=".AnimatedSplash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,11 +20,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".SignUp"></activity>
-       <activity android:name=".Home_Guardian"></activity>
-        <activity android:name=".SampleLogOut"></activity>
-        <activity android:name=".Home_Tutor"></activity>
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true">
+
+        </activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".SignUp" />
+        <activity android:name=".Home_Guardian" />
+        <activity android:name=".SampleLogOut" />
+        <activity android:name=".Home_Tutor" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
