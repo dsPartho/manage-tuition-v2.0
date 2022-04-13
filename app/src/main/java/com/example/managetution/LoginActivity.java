@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
 
         logemail = (TextInputLayout)findViewById(R.id.layoutUser);
         logpass = (TextInputLayout) findViewById(R.id.layoutPass);
