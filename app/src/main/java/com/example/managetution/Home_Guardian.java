@@ -7,6 +7,7 @@ import android.os.PersistableBundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,12 +16,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Home_Guardian extends AppCompatActivity {
 
     Button btnLogout;
     FirebaseAuth mAuth;
+    NavigationView navViewTop;
+    Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,7 @@ public class Home_Guardian extends AppCompatActivity {
             }
         });*/
 
+        navViewTop = findViewById(R.id.nav_top_view);
         BottomNavigationView btmNavView = findViewById(R.id.bottom_Nav);
         btmNavView.setOnNavigationItemSelectedListener(NavigationView);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Home_Fragment()).commit();
@@ -72,4 +77,5 @@ public class Home_Guardian extends AppCompatActivity {
 
         }
     };
+
 }
