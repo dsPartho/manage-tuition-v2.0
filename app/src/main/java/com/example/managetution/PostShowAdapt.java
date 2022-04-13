@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -22,6 +23,7 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
     private FirebaseAuth mAuth;
     private String currentUser;
     private  FirebaseUser firebaseUser;
+
 
 
     public PostShowAdapt(@NonNull FirebaseRecyclerOptions<PostSaveDetails> options) {
@@ -73,7 +75,8 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
                 @Override
                 public void onClick(View view) {
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Notification_Fragment()).commit();
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Notification_Fragment()).addToBackStack(null).commit();
+
                 }
             });
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +84,8 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
                 public void onClick(View view) {
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Chat_Fragment()).commit();
+
+
 
                    // itemView.setTag(vie);
                 }
