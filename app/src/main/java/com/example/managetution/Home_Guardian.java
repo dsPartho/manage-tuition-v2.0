@@ -31,9 +31,7 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
         getSupportActionBar().hide();
 
         btmNavView = findViewById(R.id.bottom_Nav);
-        // btmNavView.setOnNavigationItemSelectedListener(NavigationView);
         btmNavView.setSelectedItemId(R.id.home_bottom_nav);
-
         btmNavView.setOnNavigationItemSelectedListener(this);
 
 
@@ -56,11 +54,13 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
         else{
             btmNavView.setSelectedItemId(R.id.home_bottom_nav);
         }
+
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;
+
         switch (item.getItemId()){
             case R.id.notification_bottom_nav:
                 fragment = new Notification_Fragment();
@@ -77,7 +77,6 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
                 fragment = new Chat_Fragment();
                 item.setChecked(true);
                 break;
-
 
             case R.id.home_bottom_nav:
                 fragment = new Home_Fragment();
