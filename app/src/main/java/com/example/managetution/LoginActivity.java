@@ -133,14 +133,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
     }
-    //@Override
-   /* protected void onStart() {
+    @Override
+    protected void onStart() {
         super.onStart();
         if(mAuth.getCurrentUser()!= null){
-            startActivity(new Intent(getApplicationContext(),Home.class));
+            startActivity(new Intent(getApplicationContext(),Home_Guardian.class));
             finish();
         }
-    }*/
+    }
 
     @Override
     public void onBackPressed() {
