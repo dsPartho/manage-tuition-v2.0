@@ -107,7 +107,9 @@ public class LoginActivity extends AppCompatActivity {
                                 if((user_role.equals("Tutor")) ){
                                     Toast.makeText(LoginActivity.this, "Tutor Login Successful", Toast.LENGTH_SHORT).show();
                                     // startActivity(new Intent(getApplicationContext(), ));
-                                    Intent i = new Intent(LoginActivity.this, com.example.managetution.Home_Tutor.class);
+                                    //Intent i = new Intent(LoginActivity.this, com.example.managetution.Home_Tutor.class);
+                                    Intent i = new Intent(LoginActivity.this, TutorProfile.class);
+
                                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
                                     startActivity(i);
                                     finish();
@@ -134,6 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
     }
+    /*
     @Override
     protected void onStart() {
         super.onStart();
@@ -143,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
-
+*/
     @Override
     public void onBackPressed() {
         super.onBackPressed();

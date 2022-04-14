@@ -42,14 +42,14 @@ import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class GuardianProfile extends AppCompatActivity {
+public class TutorProfile extends AppCompatActivity {
 
     // declaring variables
     private Button saveBtn, changePassBtn;
     private ImageView chooseImg;
     private CircleImageView showImg;
     private Uri filePath;
-    private EditText firstNameEdit, lastNameEdit, emailEdit, userEdit, insEdit, genderEdit, passEdit, roleEdit, locationEdit, phoneEdit;
+    private EditText firstNameEdit, lastNameEdit, emailEdit, userEdit, insEdit, genderEdit, passEdit, roleEdit, locationEdit, phoneEdit, batchEdit, acEdit, semEdit;
     private final int PICK_IMAGE_REQUEST = 22;
 
     FirebaseStorage storage;
@@ -60,30 +60,31 @@ public class GuardianProfile extends AppCompatActivity {
     FirebaseUser user;
 
 
-    String _NAME, _EMAIL, _PASSWORD, _FIRSTNAME,_LASTNAME,  _INSTITUTION, _GENDER, _ROLE, _USERID, _LOCATION, _PHONE, _PICTURE;
+    String _NAME, _EMAIL, _PASSWORD, _FIRSTNAME,_LASTNAME,  _INSTITUTION, _GENDER, _ROLE, _USERID, _LOCATION, _PHONE, _PICTURE, _BATCH, _ACYEAR, _CURRSEM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_guardian_profile);
+        setContentView(R.layout.activity_tutor_profile);
 
-        saveBtn = findViewById(R.id.btnSave);
-        showImg = findViewById(R.id.imgDP);
-        chooseImg = findViewById(R.id.imgChooseDP);
-        firstNameEdit = findViewById(R.id.editFirstName);
-        lastNameEdit = findViewById(R.id.editLastName);
-        locationEdit = findViewById(R.id.editLocation);
-        phoneEdit = findViewById(R.id.editPhone);
-        emailEdit = findViewById(R.id.editEmail);
+        saveBtn = findViewById(R.id.btnSave_s);
+        showImg = findViewById(R.id.imgDP_s);
+        chooseImg = findViewById(R.id.imgChooseDP_s);
+        firstNameEdit = findViewById(R.id.editFirstName_s);
+        lastNameEdit = findViewById(R.id.editLastName_s);
+        insEdit = findViewById(R.id.editInstitution_s);
+        phoneEdit = findViewById(R.id.editPhone_s);
+        //batchEdit = findViewById(R.id.editBatch);
+        acEdit = findViewById(R.id.editACYear_s);
+        //semEdit = findViewById(R.id.editSem);
+        emailEdit = findViewById(R.id.editEmail_s);
         emailEdit.setEnabled(false);
-        //userEdit = findViewById(R.id.editUser);
-        //userEdit.setEnabled(false);
-        genderEdit = findViewById(R.id.editGender);
+        genderEdit = findViewById(R.id.editGender_s);
         genderEdit.setEnabled(false);
-        //passEdit = findViewById(R.id.editPass);
-        roleEdit = findViewById(R.id.editRole);
+        roleEdit = findViewById(R.id.editRole_s);
         roleEdit.setEnabled(false);
-        changePassBtn = findViewById(R.id.btnChangePass);
+        changePassBtn = findViewById(R.id.btnChangePass_s);
+
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -91,8 +92,7 @@ public class GuardianProfile extends AppCompatActivity {
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        databaseReference = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("GuardianUser").child(_USERID);
-
+        databaseReference = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("TutorUser").child(_USERID);
 
         showAllUserData();
 
@@ -111,7 +111,6 @@ public class GuardianProfile extends AppCompatActivity {
                 update();
             }
         });
-
 
         //password reset function
         changePassBtn.setOnClickListener(new View.OnClickListener() {
@@ -132,13 +131,13 @@ public class GuardianProfile extends AppCompatActivity {
                         user.updatePassword(newPassword).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(GuardianProfile.this, "Password Reset Successfully.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(TutorProfile.this, "Password Reset Successfully.", Toast.LENGTH_SHORT).show();
                                 databaseReference.child("pass").setValue(newPassword);
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(GuardianProfile.this, "Password Reset Failed.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(TutorProfile.this, "Password Reset Failed.", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -166,9 +165,12 @@ public class GuardianProfile extends AppCompatActivity {
                 _LASTNAME = snapshot.child("lastname").getValue(String.class);
                 _EMAIL = snapshot.child("email").getValue(String.class);
                 _GENDER = snapshot.child("gender").getValue(String.class);
-                _LOCATION = snapshot.child("location").getValue(String.class);
+                _INSTITUTION = snapshot.child("institution").getValue(String.class);
                 _ROLE = snapshot.child("role").getValue(String.class);
-                _PHONE = snapshot.child("phoneNo").getValue(String.class);
+                _PHONE = snapshot.child("contactInfo").getValue(String.class);
+                //_BATCH = snapshot.child("batch").getValue(String.class);
+                _ACYEAR = snapshot.child("academicYear").getValue(String.class);
+                //_CURRSEM = snapshot.child("phoneNo").getValue(String.class);
                 _PICTURE = snapshot.child("Picture URL").getValue(String.class);
 
                 firstNameEdit.setText(_FIRSTNAME);
@@ -176,10 +178,12 @@ public class GuardianProfile extends AppCompatActivity {
                 emailEdit.setText(_EMAIL);
                 phoneEdit.setText(_PHONE);
                 genderEdit.setText(_GENDER);
-                locationEdit.setText(_LOCATION);
+                insEdit.setText(_INSTITUTION);
                 roleEdit.setText(_ROLE);
-               if(_PICTURE.length() > 1)
+                acEdit.setText(_ACYEAR);
+                if(_PICTURE.length() > 1) {
                     Picasso.get().load(_PICTURE).into(showImg);
+                }
             }
 
             @Override
@@ -189,6 +193,7 @@ public class GuardianProfile extends AppCompatActivity {
         });
         //System.out.println(_NAME);
     }
+
 
     //select Image Method
     private void selectImage(){
@@ -277,7 +282,7 @@ public class GuardianProfile extends AppCompatActivity {
                                 // Dismiss dialog
                                 progressDialog.dismiss();
                                 Toast
-                                        .makeText(GuardianProfile.this,
+                                        .makeText(TutorProfile.this,
                                                 "Image Uploaded!!",
                                                 Toast.LENGTH_SHORT)
                                         .show();
@@ -302,7 +307,7 @@ public class GuardianProfile extends AppCompatActivity {
                             // Error, Image not uploaded
                             progressDialog.dismiss();
                             Toast
-                                    .makeText(GuardianProfile.this,
+                                    .makeText(TutorProfile.this,
                                             "Failed " + e.getMessage(),
                                             Toast.LENGTH_SHORT)
                                     .show();
@@ -321,20 +326,20 @@ public class GuardianProfile extends AppCompatActivity {
         }
     }
 
-
     private void update(){
         //String fullName = fullNameEdit.getText().toString();
         //databaseReference.child("Enter_name").setValue(fullName); //change korsi
         isFirstNameChanged();
         isLastNameChanged();
         isPhoneChanged();
-        isLocationChanged();
+        isInstitutionChanged();
+        isACYearChanged();
 
-        if (isFirstNameChanged() || isLocationChanged() || isLastNameChanged() || isPhoneChanged() ){
-            Toast.makeText(GuardianProfile.this, "Data has been updated", Toast.LENGTH_LONG).show();
+        if (isFirstNameChanged() || isInstitutionChanged() || isLastNameChanged() || isPhoneChanged() || isACYearChanged() ){
+            Toast.makeText(TutorProfile.this, "Data has been updated", Toast.LENGTH_LONG).show();
         }
         else
-            Toast.makeText(GuardianProfile.this, "Data is same", Toast.LENGTH_LONG).show();
+            Toast.makeText(TutorProfile.this, "Data is same", Toast.LENGTH_LONG).show();
     }
 
 
@@ -367,9 +372,9 @@ public class GuardianProfile extends AppCompatActivity {
             return false;
         }
     }
-    private boolean isLocationChanged() {
-        if(!_LOCATION.equals(locationEdit.getText().toString())){
-            databaseReference.child("location").setValue(locationEdit.getText().toString());
+    private boolean isInstitutionChanged() {
+        if(!_INSTITUTION.equals(insEdit.getText().toString())){
+            databaseReference.child("institution").setValue(insEdit.getText().toString());
             return true;
         }
         else{
@@ -377,43 +382,14 @@ public class GuardianProfile extends AppCompatActivity {
         }
     }
 
-    /*
-    private boolean isNameChanged() {
-        if(!_FIRSTNAME.equals(firstNameEdit.getText().toString())){
-            databaseReference.child("firstname").setValue(firstNameEdit.getText().toString());
-
-            new_ref = FirebaseDatabase.getInstance().getReference("courses");
-
-            new_ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
-                        String username = dataSnapshot.child("currentUser").getValue(String.class);
-
-                        if(_NAME.equals(username)) {
-
-                            dataSnapshot.child("teacherEnter_name").getRef().setValue(fullNameEdit.getText().toString());
-                        }
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                }
-            });
-
-
+    private boolean isACYearChanged() {
+        if(!_ACYEAR.equals(acEdit.getText().toString())){
+            databaseReference.child("academicYear").setValue(acEdit.getText().toString());
             return true;
         }
         else{
             return false;
         }
     }
-
-    */
 
 }
