@@ -3,8 +3,6 @@ package com.example.managetution;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,8 +23,9 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
     //Variables (Partho)
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    Toolbar toolBar;
-    Button backBTN;
+    Toolbar toolbar;
+    //sagar
+    ActionBarDrawerToggle Toggle;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -35,32 +34,34 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
         setContentView(R.layout.activity_guardian_home);
         loadFragments(new Home_Fragment());
         //getSupportActionBar().hide();
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Manage Tuition");
 
-        btmNavView = findViewById(R.id.bottom_Nav);
+        btmNavView = findViewById(R.id.bottom_nav);
         // btmNavView.setOnNavigationItemSelectedListener(NavigationView);
         btmNavView.setSelectedItemId(R.id.home_bottom_nav);
         drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_top_view);
-        toolBar = findViewById(R.id.toolbar);
-        //backBTN =  findViewById(R.id.header_button);
+        navigationView = findViewById(R.id.top_nav);
 
         btmNavView.setOnNavigationItemSelectedListener(this);
 
         /* ------- ToolBAR ----------*/
-        setSupportActionBar(toolBar);
+        setSupportActionBar(toolbar);
 
         /* -------------- Navigation Drawer Menu ---*/
         navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle( this, drawerLayout, toolBar,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
-//        backBTN.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                drawerLayout.closeDrawer(GravityCompat.START);
-//            }
-//        });
+        Toggle = new ActionBarDrawerToggle( this, drawerLayout, toolbar,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(Toggle);
+        Toggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // drawerLayout.closeDrawer(GravityCompat.START);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                return false;
+            }
+        });
 
     }
 
@@ -80,12 +81,12 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
 //        else{
 //            super.onBackPressed();
 //        }
-        if(btmNavView.getSelectedItemId() == R.id.home_bottom_nav && this.drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if(btmNavView.getSelectedItemId() == R.id.home_bottom_nav && drawerLayout.isDrawerOpen(GravityCompat.START)){
             Toast.makeText(getApplicationContext(),"FIRST CONDITION", Toast.LENGTH_LONG).show();
-            drawerLayout.closeDrawers();
+            drawerLayout.closeDrawer(GravityCompat.START);
             btmNavView.setSelectedItemId(R.id.home_bottom_nav);
         }
-        else if(btmNavView.getSelectedItemId() == R.id.home_bottom_nav && !this.drawerLayout.isDrawerOpen(GravityCompat.START)){
+        else if(btmNavView.getSelectedItemId() == R.id.home_bottom_nav &&(!drawerLayout.isDrawerOpen(GravityCompat.START)) ){
             Toast.makeText(getApplicationContext(),"IF CONDITION", Toast.LENGTH_LONG).show();
             super.onBackPressed();
             finish();
@@ -125,5 +126,14 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
         }
         return loadFragments(fragment);
     }
+   /* @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if(Toggle.onOptionsItemSelected(item)){
+            return  true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }*/
 
 }

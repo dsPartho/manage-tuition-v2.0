@@ -1,5 +1,7 @@
 package com.example.managetution;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,8 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
     private FirebaseAuth mAuth;
     private String currentUser;
     private  FirebaseUser firebaseUser;
+    //private chatInterface chatInterface;
+    BottomNavigationView btmNav;
 
 
 
@@ -70,6 +74,7 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
             date = itemView.findViewById(R.id.post_date_id);
             time = itemView.findViewById(R.id.post_time_id);
             postDetails = itemView.findViewById(R.id.user_post_details_id);
+            //btmNav = itemView.findViewById(R.id.bo);
             sendTuitionRequestButton = itemView.findViewById(R.id.sendtuitionrequestbuttonId);
             sendTuitionRequestButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -84,6 +89,8 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
                 public void onClick(View view) {
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Chat_Fragment()).commit();
+                    Intent intent = new Intent();
+                    intent.putExtra("chat","1");
 
 
 
@@ -92,4 +99,5 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
             });
         }
     }
+
 }
