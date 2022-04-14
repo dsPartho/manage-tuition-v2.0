@@ -51,11 +51,11 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
 
         /* -------------- Navigation Drawer Menu ---*/
         navigationView.bringToFront();
-         Toggle = new ActionBarDrawerToggle( this, drawerLayout, toolbar,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        Toggle = new ActionBarDrawerToggle( this, drawerLayout, toolbar,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(Toggle);
         Toggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-       // drawerLayout.closeDrawer(GravityCompat.START);
+        // drawerLayout.closeDrawer(GravityCompat.START);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
