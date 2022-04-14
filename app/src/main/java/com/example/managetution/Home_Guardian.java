@@ -3,6 +3,8 @@ package com.example.managetution;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,7 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolBar;
+    Button backBTN;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -39,6 +42,7 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_top_view);
         toolBar = findViewById(R.id.toolbar);
+        //backBTN =  findViewById(R.id.header_button);
 
         btmNavView.setOnNavigationItemSelectedListener(this);
 
@@ -50,6 +54,13 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle( this, drawerLayout, toolBar,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+
+//        backBTN.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                drawerLayout.closeDrawer(GravityCompat.START);
+//            }
+//        });
 
     }
 
@@ -69,12 +80,12 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
 //        else{
 //            super.onBackPressed();
 //        }
-        if(btmNavView.getSelectedItemId() == R.id.home_bottom_nav && !drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if(btmNavView.getSelectedItemId() == R.id.home_bottom_nav && this.drawerLayout.isDrawerOpen(GravityCompat.START)){
             Toast.makeText(getApplicationContext(),"FIRST CONDITION", Toast.LENGTH_LONG).show();
-            drawerLayout.closeDrawer(GravityCompat.START);
+            drawerLayout.closeDrawers();
             btmNavView.setSelectedItemId(R.id.home_bottom_nav);
         }
-        else if(btmNavView.getSelectedItemId() == R.id.home_bottom_nav && drawerLayout.isDrawerOpen(GravityCompat.START)){
+        else if(btmNavView.getSelectedItemId() == R.id.home_bottom_nav && !this.drawerLayout.isDrawerOpen(GravityCompat.START)){
             Toast.makeText(getApplicationContext(),"IF CONDITION", Toast.LENGTH_LONG).show();
             super.onBackPressed();
             finish();
