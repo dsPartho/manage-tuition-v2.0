@@ -97,7 +97,8 @@ public class LoginActivity extends AppCompatActivity {
                                 if((user_role.equals("Guardian"))){
                                     Toast.makeText(LoginActivity.this, "Guardian Login Successful", Toast.LENGTH_SHORT).show();
                                     //startActivity(new Intent(getApplicationContext(), Home_Guardian.class));
-                                    Intent i = new Intent(LoginActivity.this, com.example.managetution.Home_Guardian.class);
+                                    //Intent i = new Intent(LoginActivity.this, com.example.managetution.Home_Guardian.class);
+                                    Intent i = new Intent(LoginActivity.this, GuardianProfile.class);
                                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
                                     startActivity(i);
                                     finish();
@@ -141,7 +142,6 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
     }*/
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
