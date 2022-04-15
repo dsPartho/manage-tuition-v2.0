@@ -178,7 +178,7 @@ public class GuardianProfile extends AppCompatActivity {
                 genderEdit.setText(_GENDER);
                 locationEdit.setText(_LOCATION);
                 roleEdit.setText(_ROLE);
-               if(_PICTURE.length() > 1)
+                if(_PICTURE.length() > 1)
                     Picasso.get().load(_PICTURE).into(showImg);
             }
 
@@ -381,39 +381,34 @@ public class GuardianProfile extends AppCompatActivity {
     private boolean isNameChanged() {
         if(!_FIRSTNAME.equals(firstNameEdit.getText().toString())){
             databaseReference.child("firstname").setValue(firstNameEdit.getText().toString());
-
             new_ref = FirebaseDatabase.getInstance().getReference("courses");
-
             new_ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
                         String username = dataSnapshot.child("currentUser").getValue(String.class);
-
                         if(_NAME.equals(username)) {
-
                             dataSnapshot.child("teacherEnter_name").getRef().setValue(fullNameEdit.getText().toString());
                         }
                     }
-
                 }
-
                 @Override
                 public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
                 }
             });
-
-
             return true;
         }
         else{
             return false;
         }
     }
-
     */
+    @Override
+    public void onBackPressed() {
+
+        Intent newIntent = new Intent(this, Home_Guardian.class);
+        startActivity(newIntent);
+        finish();
+    }
 
 }

@@ -15,6 +15,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -77,6 +78,7 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
                         Intent profIntent = new Intent(getApplicationContext(),GuardianProfile.class);
                         profIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(profIntent);
+                        finish();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
                     case R.id.nav_logout:
@@ -119,7 +121,7 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
 
     public  boolean loadFragments(Fragment fragment){
         if(fragment!=null){
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,fragment).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,fragment,"My_Fragment").addToBackStack(null).commit();
         }
         return  true;
     }

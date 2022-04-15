@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -51,7 +52,7 @@ public class Post_Fragment extends Fragment {
         updatePostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 postDetails = postText.getText().toString();
+                postDetails = postText.getText().toString();
                 if(TextUtils.isEmpty(postDetails)){
                     Toast.makeText(getActivity(),"please Enter tuition requirements and Details", Toast.LENGTH_LONG).show();
                 }
@@ -72,12 +73,12 @@ public class Post_Fragment extends Fragment {
                     userDatabaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                           GuardianUsers guardianUsers = snapshot.getValue(GuardianUsers.class);
-                           System.out.println(guardianUsers.getFirstname());
+                            GuardianUsers guardianUsers = snapshot.getValue(GuardianUsers.class);
+                            System.out.println(guardianUsers.getFirstname());
                             System.out.println(guardianUsers.getLastname());
-                          // if(guardianUsers.getFirstname()!=null)
+                            // if(guardianUsers.getFirstname()!=null)
                             firstName = guardianUsers.getFirstname();
-                           lastName =  guardianUsers.getLastname();
+                            lastName =  guardianUsers.getLastname();
                             username = firstName +" " + lastName;
                             //String username = "sagar";
                             PostSaveDetails postSaveData = new PostSaveDetails(current_User,curDate,curTime,postDetails,username,dateTime);
@@ -86,9 +87,8 @@ public class Post_Fragment extends Fragment {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
                                         //Toast.makeText(getActivity(),"postData inserted into databasse",Toast.LENGTH_SHORT).show();
-                                        Intent newIntent = new Intent(getActivity(),Home_Guardian.class);
-                                        newIntent .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(newIntent);
+                                        getFragmentManager().beginTransaction().replace(R.id.frame_layout,new Home_Fragment()).addToBackStack(null).commit();
+                                        //getFragmentManager().beginTransaction().remove().commit();
                                     }
                                     else{
                                         Toast.makeText(getActivity(),"postData not inserted into databasse",Toast.LENGTH_SHORT).show();

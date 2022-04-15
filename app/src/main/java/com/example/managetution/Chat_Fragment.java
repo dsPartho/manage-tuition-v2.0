@@ -1,5 +1,6 @@
 package com.example.managetution;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,15 @@ public class Chat_Fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.chat_bottom_fragment,container,false);
+        View view = inflater.inflate(R.layout.chat_bottom_fragment_tutor,container,false);
         return view;
+    }
+    @Override
+    public void onDetach() {
+
+        //PUT YOUR CODE HERE
+
+        super.onDetach();
+
     }
 }

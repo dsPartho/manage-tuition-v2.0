@@ -392,4 +392,10 @@ public class TutorProfile extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent newIntent = new Intent(this, Home_Tutor.class);
+        startActivity(newIntent);
+        finish();
+    }
 }

@@ -54,7 +54,7 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
     @NonNull
     @Override
     public postShowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_post,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.guardianpostlayout,parent,false);
 
         return  new postShowViewHolder(view);
     }
@@ -63,7 +63,6 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
 
         CircleImageView image;
         TextView date, time, postDetails,username, hasUpdated;
-        public Button sendTuitionRequestButton;
 
         public postShowViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,7 +74,7 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
             time = itemView.findViewById(R.id.post_time_id);
             postDetails = itemView.findViewById(R.id.user_post_details_id);
             //btmNav = itemView.findViewById(R.id.bo);
-            sendTuitionRequestButton = itemView.findViewById(R.id.sendtuitionrequestbuttonId);
+            /*sendTuitionRequestButton = itemView.findViewById(R.id.sendtuitionrequestbuttonId);
             sendTuitionRequestButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -83,14 +82,16 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Notification_Fragment()).addToBackStack(null).commit();
 
                 }
-            });
+            });*/
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Chat_Fragment()).commit();
-                    Intent intent = new Intent();
+                   // activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Chat_Fragment()).commit();
+                    Intent intent = new Intent(view.getContext(),PostShowDetailsActivity.class);
                     intent.putExtra("chat","1");
+                    activity.startActivity(intent);
+                    activity.finish();
 
 
 
