@@ -94,23 +94,7 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
         firebaseUser = mAuth.getCurrentUser();
          userId = firebaseUser.getUid();
         firebaseDatabase = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/");
-       /* firebaseDatabase.getReference("GuardianUser").child(userId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                System.out.println(snapshot);
-                GuardianUsers guardianUsers= snapshot.getValue(GuardianUsers.class);
-                username = guardianUsers.getFirstname() + " " + guardianUsers.getLastname();
-                //System.out.println(username);
-                //userNameText.setText(username);
-                userNameText.setText(username);
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
         readData(new DataCallBackFirebase() {
             @Override
             public void onCallBack(String value) {
@@ -269,7 +253,7 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
        firebaseDatabase.getReference("GuardianUser").child(userId).addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(@NonNull DataSnapshot snapshot) {
-               GuardianUsers guardianUsers = snapshot.getValue(GuardianUsers.class);
+               GuardianUsersByPartho guardianUsers = snapshot.getValue(GuardianUsersByPartho.class);
                username = guardianUsers.getFirstname() + " " + guardianUsers.getLastname();
                dataCallBackFirebase.onCallBack(username);
 

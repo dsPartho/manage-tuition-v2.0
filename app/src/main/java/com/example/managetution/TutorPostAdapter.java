@@ -76,7 +76,22 @@ public class TutorPostAdapter extends FirebaseRecyclerAdapter<PostSaveDetails,Tu
 
                 firebaseDatabase = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/");
                 chatRequestReference = firebaseDatabase.getReference("post");
-                chatRequestReference.addValueEventListener(new ValueEventListener() {
+                /*chatRequestReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                                GuardianUsersByPartho guardianUsersByPartho = dataSnapshot.
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });*/
+               chatRequestReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
@@ -89,6 +104,53 @@ public class TutorPostAdapter extends FirebaseRecyclerAdapter<PostSaveDetails,Tu
                                     System.out.println("yess");
                                     chat_userId = dataSnapshot.child("userId").getValue(String.class);
                                     System.out.println(chat_userId);
+                                    ReadDataRetrieve(new DataRetrieve() {
+                                        @Override
+                                        public void onRetrieve(String value) {
+                                            tutorUserName = value;
+                                            ChatReference chatReference= new ChatReference(firstName,lastName,tutorUserId,guardianUserName,tutorUserName);
+                                            String uniqueID = UUID.randomUUID().toString();
+                                            FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("GuardianUser").child(chat_userId).child("notification").child(uniqueID).setValue(chatReference).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful()){
+                                                        Toast.makeText(activity, "data is inserted chat ref", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    else{
+                                                        Toast.makeText(activity, "data not inserted into child ref", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(activity, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+
+                                        }
+                                    });
+                                   /* FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("TutorUser").child(tutorUserId).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            TutorUsers tutorUsers = snapshot.getValue(TutorUsers.class);
+                                            tutorUserName = tutorUsers.getFirstname() + " " + tutorUsers.getLastname();
+                                            System.out.println("tutt" + tutorUserName);
+                                            System.out.println("chatUserId",chat_userId);
+                                            firebaseDatabase.getReference("GuardianUser").child(chat_userId).child("notificationTutorUser").setValue(tutorUserName).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    //Toast.makeText(, "", Toast.LENGTH_SHORT).show();
+                                                    System.out.println("inserted");
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });*/
+
                                     break;
                                 }
                             }
@@ -101,7 +163,7 @@ public class TutorPostAdapter extends FirebaseRecyclerAdapter<PostSaveDetails,Tu
                     }
                 });
 
-                ReadDataRetrieve(new DataRetrieve() {
+               /* ReadDataRetrieve(new DataRetrieve() {
                     @Override
                     public void onRetrieve(String value) {
                         tutorUserName = value;
@@ -124,7 +186,7 @@ public class TutorPostAdapter extends FirebaseRecyclerAdapter<PostSaveDetails,Tu
                         });
 
                     }
-                });
+                });*/
 
 
 
@@ -166,7 +228,7 @@ public class TutorPostAdapter extends FirebaseRecyclerAdapter<PostSaveDetails,Tu
         FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("TutorUser").child(tutorUserId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                TutorUsers tutorUsers= snapshot.getValue(TutorUsers.class);
+                TutorUsersByPartho tutorUsers= snapshot.getValue(TutorUsersByPartho.class);
                 tutorUserName = tutorUsers.getFirstname() + " " + tutorUsers.getLastname();
                 System.out.println("tutt" + tutorUserName);
                 dataRetrieve.onRetrieve(tutorUserName);

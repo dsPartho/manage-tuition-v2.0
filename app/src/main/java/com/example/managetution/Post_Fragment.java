@@ -73,7 +73,7 @@ public class Post_Fragment extends Fragment {
                     userDatabaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            GuardianUsers guardianUsers = snapshot.getValue(GuardianUsers.class);
+                            GuardianUsersByPartho guardianUsers = snapshot.getValue(GuardianUsersByPartho.class);
                             System.out.println(guardianUsers.getFirstname());
                             System.out.println(guardianUsers.getLastname());
                             // if(guardianUsers.getFirstname()!=null)

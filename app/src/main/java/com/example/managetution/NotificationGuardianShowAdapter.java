@@ -18,8 +18,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.BreakIterator;
 import java.util.UUID;
@@ -30,7 +33,7 @@ public class NotificationGuardianShowAdapter extends FirebaseRecyclerAdapter<Cha
     private FirebaseDatabase firebaseDatabase;
     private FirebaseUser firebaseUser;
     private DatabaseReference acceptDataBaseRef,decDataBaseRef;
-    public String guardianUserName,tutorUserName;
+    public String guardianUserName,tutorUserName,userId;
 
 
 
@@ -45,6 +48,8 @@ public class NotificationGuardianShowAdapter extends FirebaseRecyclerAdapter<Cha
 
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
+        userId = firebaseUser.getUid();
+
         firebaseDatabase = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/");
         holder.acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,8 +59,43 @@ public class NotificationGuardianShowAdapter extends FirebaseRecyclerAdapter<Cha
                 holder.declineButton.setVisibility(View.GONE);
                 String uniqueID = UUID.randomUUID().toString();
                 String type = "Accept";
-                NotificationColabartion notificationColabartion = new NotificationColabartion(model.getGuardianUserName(), model.getTutorUserName(),type);
-                firebaseDatabase.getReference("acceptUserList").child(uniqueID).setValue(notificationColabartion).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                firebaseDatabase.getReference("GuardianUser").child(userId).child("notification").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                                ChatReference chatReference = dataSnapshot.getValue(ChatReference.class);
+                                if(chatReference.getTutorUserName().equals(model.getTutorUserName())){
+                                    String id = chatReference.getTutorUserId();
+                                    NotificationColabartion notificationColabartion = new NotificationColabartion(model.getGuardianUserName(),userId,type);
+                                    firebaseDatabase.getReference("TutorUser").child(id).child("notification").child(uniqueID).setValue(notificationColabartion).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                Toast.makeText(activity, "databaseCreated", Toast.LENGTH_SHORT).show();
+                                            }
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(activity, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                    break;
+                                }
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+               /* firebaseDatabase.getReference("TutorUser").child().child(uniqueID).setValue(notificationColabartion).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
@@ -68,7 +108,7 @@ public class NotificationGuardianShowAdapter extends FirebaseRecyclerAdapter<Cha
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(activity, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     }
-                });
+                });*/
 
             }
         });
@@ -80,18 +120,38 @@ public class NotificationGuardianShowAdapter extends FirebaseRecyclerAdapter<Cha
                 holder.declineButton.setVisibility(View.GONE);
                 String uniqueID = UUID.randomUUID().toString();
                 String type = "Decline";
-                NotificationColabartion notificationColabartion = new NotificationColabartion(model.getGuardianUserName(), model.getTutorUserName(),type);
-                firebaseDatabase.getReference("acceptUserList").child(uniqueID).setValue(notificationColabartion).addOnCompleteListener(new OnCompleteListener<Void>() {
+                firebaseDatabase.getReference("GuardianUser").child(userId).child("notification").addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(activity, "datacreated", Toast.LENGTH_SHORT).show();
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                                ChatReference chatReference = dataSnapshot.getValue(ChatReference.class);
+                                if(chatReference.getTutorUserName().equals(model.getTutorUserName())){
+                                    String id = chatReference.getTutorUserId();
+                                    NotificationColabartion notificationColabartion = new NotificationColabartion(model.getGuardianUserName(),userId,type);
+                                    firebaseDatabase.getReference("TutorUser").child(id).child("notification").child(uniqueID).setValue(notificationColabartion).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                Toast.makeText(activity, "databaseCreated", Toast.LENGTH_SHORT).show();
+                                            }
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(activity, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                    break;
+                                }
+                            }
                         }
+
                     }
-                }).addOnFailureListener(new OnFailureListener() {
+
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(activity, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });

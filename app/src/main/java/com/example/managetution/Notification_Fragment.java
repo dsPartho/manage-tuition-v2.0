@@ -45,7 +45,7 @@ public class Notification_Fragment extends Fragment {
 
         ///getting username from home
         Bundle dataBundle = this.getArguments();
-        gUserName = dataBundle.getString("guardianUserName");
+        //gUserName = dataBundle.getString("guardianUserName");
         System.out.println("guser" + gUserName);
 
 
@@ -53,7 +53,7 @@ public class Notification_Fragment extends Fragment {
         firebaseUser = mAuth.getCurrentUser();
          userId = firebaseUser.getUid();
         firebaseDatabase = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        chatDataRef = firebaseDatabase.getReference("ChatRequestReference");
+        chatDataRef = firebaseDatabase.getReference("GuardianUser").child(userId).child("notification");
         chatDataRef.keepSynced(true);
 
        /*  firebaseDatabase.getReference("GuardianUser").child(userId).addValueEventListener(new ValueEventListener() {
@@ -84,16 +84,22 @@ public class Notification_Fragment extends Fragment {
             @Override
             public void onCallBack(String value) {
                 gUserName = value;
+                System.out.println("g " + gUserName);
 
-                 FirebaseRecyclerOptions<ChatReference>notificationOptions =
+                /* FirebaseRecyclerOptions<ChatReference>notificationOptions =
                         new FirebaseRecyclerOptions.Builder<ChatReference>().setQuery(chatDataRef.orderByChild("guardianUserName").equalTo(gUserName),ChatReference.class).build();
+                notificationGuardianShowAdapter = new NotificationGuardianShowAdapter(notificationOptions);
+                notificationGuardianShowAdapter.notifyDataSetChanged();
+                notificationRecyclerView.setAdapter(notificationGuardianShowAdapter);
+                notificationRecyclerView.stopScroll();*/
+
                 //
 
             }
         });
-        System.out.println("g " + gUserName);
+
         FirebaseRecyclerOptions<ChatReference>notificationOptions =
-                new FirebaseRecyclerOptions.Builder<ChatReference>().setQuery(chatDataRef.orderByChild("guardianUserName").equalTo(gUserName),ChatReference.class).build();
+                new FirebaseRecyclerOptions.Builder<ChatReference>().setQuery(chatDataRef,ChatReference.class).build();
 
         notificationGuardianShowAdapter = new NotificationGuardianShowAdapter(notificationOptions);
 
@@ -119,7 +125,7 @@ public class Notification_Fragment extends Fragment {
         firebaseDatabase.getReference("GuardianUser").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                GuardianUsers guardianUsers = snapshot.getValue(GuardianUsers.class);
+                GuardianUsersByPartho guardianUsers = snapshot.getValue(GuardianUsersByPartho.class);
                 username = guardianUsers.getFirstname() + " " + guardianUsers.getLastname();
                 dataCallBackFirebase.onCallBack(username);
 

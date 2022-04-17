@@ -261,7 +261,7 @@ public class Home_Tutor extends AppCompatActivity implements BottomNavigationVie
         firebaseDatabase.getReference("TutorUser").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                TutorUsers tutorUsers = snapshot.getValue(TutorUsers.class);
+                TutorUsersByPartho tutorUsers = snapshot.getValue(TutorUsersByPartho.class);
                 username = tutorUsers.getFirstname() + " " + tutorUsers.getLastname();
                 dataCallBackFirebase.onCallBack(username);
 

@@ -45,9 +45,7 @@ public class Notification_Tutor_Fragment extends Fragment {
         notificationLinearTutorLayoutManager.setReverseLayout(true);
         notificationLinearTutorLayoutManager.setStackFromEnd(true);
         ///getting username from home
-        Bundle dataBundle = this.getArguments();
-        tutorUserName = dataBundle.getString("guardianUserName");
-        System.out.println("guser" +tutorUserName);
+
 
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
@@ -55,9 +53,9 @@ public class Notification_Tutor_Fragment extends Fragment {
         firebaseDatabase = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/");
        // chatDataRef = firebaseDatabase.getReference("ChatRequestReference");
         //chatDataRef.keepSynced(true);
-        acceptDataRef = firebaseDatabase.getReference("acceptUserList");
+        acceptDataRef = firebaseDatabase.getReference("TutorUser").child(userId).child("notification");
         acceptDataRef.keepSynced(true);
-        readData(new DataNTCallBackFirebase() {
+       /* readData(new DataNTCallBackFirebase() {
             @Override
             public void onCallBack(String value) {
                 tutorUserName = value;
@@ -66,9 +64,9 @@ public class Notification_Tutor_Fragment extends Fragment {
                         new FirebaseRecyclerOptions.Builder<NotificationColabartion>().setQuery(acceptDataRef.orderByChild("tutorUserName").equalTo(tutorUserName),NotificationColabartion.class).build();
             }
         });
-        System.out.println("ttt"+ tutorUserName);
+        System.out.println("ttt"+ tutorUserName);*/
         FirebaseRecyclerOptions<NotificationColabartion>notificationTutorOptions =
-                new FirebaseRecyclerOptions.Builder<NotificationColabartion>().setQuery(acceptDataRef.orderByChild("tutorUserName").equalTo(tutorUserName),NotificationColabartion.class).build();
+                new FirebaseRecyclerOptions.Builder<NotificationColabartion>().setQuery(acceptDataRef,NotificationColabartion.class).build();
         notificationTutorShowAdapter = new NotificationTutorShowAdapter(notificationTutorOptions);
 
         notificationTutorShowAdapter.notifyDataSetChanged();
@@ -93,7 +91,7 @@ public class Notification_Tutor_Fragment extends Fragment {
         firebaseDatabase.getReference("TutorUser").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                TutorUsers tutorUsers = snapshot.getValue(TutorUsers.class);
+                TutorUsersByPartho tutorUsers = snapshot.getValue(TutorUsersByPartho.class);
                 username = tutorUsers.getFirstname() + " " + tutorUsers.getLastname();
                 dataCallBackFirebase.onCallBack(username);
 

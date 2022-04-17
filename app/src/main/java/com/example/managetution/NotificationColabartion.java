@@ -1,11 +1,11 @@
 package com.example.managetution;
 
 public class NotificationColabartion {
-    public String guardianUserName,tutorUserName,type;
+    public String guardianUserName,guardianUserId,type;
 
-    public NotificationColabartion(String guardianUserName, String tutorUserName, String type) {
+    public NotificationColabartion(String guardianUserName, String guardianUserId, String type) {
         this.guardianUserName = guardianUserName;
-        this.tutorUserName = tutorUserName;
+        this.guardianUserId = guardianUserId;
         this.type = type;
     }
 
@@ -21,12 +21,12 @@ public class NotificationColabartion {
         this.guardianUserName = guardianUserName;
     }
 
-    public String getTutorUserName() {
-        return tutorUserName;
+    public String getGuardianUserId() {
+        return guardianUserId;
     }
 
-    public void setTutorUserName(String tutorUserName) {
-        this.tutorUserName = tutorUserName;
+    public void setGuardianUserId(String guardianUserId) {
+        this.guardianUserId = guardianUserId;
     }
 
     public String getType() {
