@@ -1,16 +1,18 @@
 package com.example.managetution;
 
 public class ChatReference {
-    public  String firstName,lastName,userId;
+    private String firstName,lastName,tutorUserId,guardianUserName,tutorUserName;
 
     public ChatReference() {
 
     }
 
-    public ChatReference(String firstName, String lastName, String userId) {
+    public ChatReference(String firstName, String lastName, String tutorUserId, String guardianUserName, String tutorUserName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.userId = userId;
+        this.tutorUserId = tutorUserId;
+        this.guardianUserName = guardianUserName;
+        this.tutorUserName = tutorUserName;
     }
 
     public String getFirstName() {
@@ -29,11 +31,27 @@ public class ChatReference {
         this.lastName = lastName;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getTutorUserId() {
+        return tutorUserId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setTutorUserId(String tutorUserId) {
+        this.tutorUserId = tutorUserId;
+    }
+
+    public String getGuardianUserName() {
+        return guardianUserName;
+    }
+
+    public void setGuardianUserName(String guardianUserName) {
+        this.guardianUserName = guardianUserName;
+    }
+
+    public String getTutorUserName() {
+        return tutorUserName;
+    }
+
+    public void setTutorUserName(String tutorUserName) {
+        this.tutorUserName = tutorUserName;
     }
 }
