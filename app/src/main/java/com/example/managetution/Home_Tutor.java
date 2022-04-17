@@ -3,8 +3,11 @@ package com.example.managetution;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +22,12 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Home_Tutor extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
     BottomNavigationView btmNavView;
@@ -32,6 +41,13 @@ public class Home_Tutor extends AppCompatActivity implements BottomNavigationVie
     ActionBarDrawerToggle Toggle;
     Integer count = 0;
     private AlertDialog.Builder logOutBuilder,exitAppBuilder;
+    private String username,userId;
+    private FirebaseAuth mAuth;
+    private FirebaseUser firebaseUser;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+    private View headerView;
+    private TextView userNameText;
 
 
     @Override
@@ -63,6 +79,20 @@ public class Home_Tutor extends AppCompatActivity implements BottomNavigationVie
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_view_headline_24);
+        //headerview for username
+        headerView = navigationViewTutor.getHeaderView(0);
+        userNameText =(TextView) headerView.findViewById(R.id.userNameId);
+        mAuth = FirebaseAuth.getInstance();
+        firebaseUser = mAuth.getCurrentUser();
+        userId = firebaseUser.getUid();
+        firebaseDatabase = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/");
+        tutorReadData(new DataTutorCallBackFirebase() {
+            @Override
+            public void onCallBack(String value) {
+                Log.d("username " ,value);
+                userNameText.setText(username);
+            }
+        });
         // drawerLayout.closeDrawer(GravityCompat.START);
         if(fragment== null){
             loadFragments(new Home_Tutor_Fragment());
@@ -177,7 +207,19 @@ public class Home_Tutor extends AppCompatActivity implements BottomNavigationVie
         Fragment fragment = null;
         switch (item.getItemId()){
             case R.id.notification_bottom_nav_tutor:
-                fragment = new Notification_Fragment();
+                fragment = new Notification_Tutor_Fragment();
+                Fragment finalFragment = fragment;
+                tutorReadData(new DataTutorCallBackFirebase() {
+                    @Override
+                    public void onCallBack(String value) {
+                        Log.d("notification_tutor",value);
+                        System.out.println("notifictutor" + value);
+                        Bundle dataBundle = new Bundle();
+                        dataBundle.putString("guardianUserName",value);
+                        finalFragment.setArguments(dataBundle);
+
+                    }
+                });
                 item.setChecked(true);
                 break;
             //break;
@@ -214,5 +256,24 @@ public class Home_Tutor extends AppCompatActivity implements BottomNavigationVie
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public  void tutorReadData(DataTutorCallBackFirebase dataCallBackFirebase){
+        firebaseDatabase.getReference("TutorUser").child(userId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                TutorUsers tutorUsers = snapshot.getValue(TutorUsers.class);
+                username = tutorUsers.getFirstname() + " " + tutorUsers.getLastname();
+                dataCallBackFirebase.onCallBack(username);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private interface DataTutorCallBackFirebase{
+        void onCallBack(String value);
     }
 }

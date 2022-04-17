@@ -3,8 +3,11 @@ package com.example.managetution;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,9 +20,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Home_Guardian extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -34,6 +45,14 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
     ActionBarDrawerToggle Toggle;
     Integer count = 0;
     private AlertDialog.Builder logOutBuilder,exitAppBuilder;
+    private TextView userNameText;
+    private  FirebaseAuth mAuth;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+    public  static String userId,username;
+    private FirebaseUser firebaseUser;
+    private View headerView;
+
 
 
     @Override
@@ -49,9 +68,13 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
 
         btmNavView = findViewById(R.id.bottom_nav);
         // btmNavView.setOnNavigationItemSelectedListener(NavigationView);
+
         btmNavView.setSelectedItemId(R.id.home_bottom_nav);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.top_nav);
+        //headerview for username
+        headerView = navigationView.getHeaderView(0);
+        userNameText =(TextView) headerView.findViewById(R.id.userNameId);
 
         btmNavView.setOnNavigationItemSelectedListener(this);
 
@@ -66,8 +89,40 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_view_headline_24);
         // drawerLayout.closeDrawer(GravityCompat.START);
+        //for username getting
+        mAuth = FirebaseAuth.getInstance();
+        firebaseUser = mAuth.getCurrentUser();
+         userId = firebaseUser.getUid();
+        firebaseDatabase = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/");
+       /* firebaseDatabase.getReference("GuardianUser").child(userId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                System.out.println(snapshot);
+                GuardianUsers guardianUsers= snapshot.getValue(GuardianUsers.class);
+                username = guardianUsers.getFirstname() + " " + guardianUsers.getLastname();
+                //System.out.println(username);
+                //userNameText.setText(username);
+                userNameText.setText(username);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });*/
+        readData(new DataCallBackFirebase() {
+            @Override
+            public void onCallBack(String value) {
+                Log.d("username " ,value);
+                userNameText.setText(username);
+            }
+        });
+
+
         if(fragment== null){
             loadFragments(new Home_Fragment());
+            System.out.println(" userName" +userNameText.getText().toString()+"paisi");
         }
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -122,6 +177,7 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
     public  boolean loadFragments(Fragment fragment){
         if(fragment!=null){
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,fragment,"My_Fragment").addToBackStack(null).commit();
+
         }
         return  true;
     }
@@ -159,6 +215,18 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
         switch (item.getItemId()){
             case R.id.notification_bottom_nav:
                 fragment = new Notification_Fragment();
+                Fragment finalFragment = fragment;
+                readData(new DataCallBackFirebase() {
+                    @Override
+                    public void onCallBack(String value) {
+                        System.out.println("notific" + value);
+                        Bundle dataBundle = new Bundle();
+                        dataBundle.putString("guardianUserName",value);
+                        finalFragment.setArguments(dataBundle);
+                        Notification_Fragment notification_fragment = new Notification_Fragment();
+                        notification_fragment.setArguments(dataBundle);
+                    }
+                });
                 item.setChecked(true);
                 break;
             //break;
@@ -196,6 +264,25 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
        }
 
        return super.onOptionsItemSelected(item);
+   }
+   public  void readData(DataCallBackFirebase dataCallBackFirebase){
+       firebaseDatabase.getReference("GuardianUser").child(userId).addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot snapshot) {
+               GuardianUsers guardianUsers = snapshot.getValue(GuardianUsers.class);
+               username = guardianUsers.getFirstname() + " " + guardianUsers.getLastname();
+               dataCallBackFirebase.onCallBack(username);
+
+           }
+
+           @Override
+           public void onCancelled(@NonNull DatabaseError error) {
+
+           }
+       });
+   }
+   private interface DataCallBackFirebase{
+       void onCallBack(String value);
    }
 
 }
