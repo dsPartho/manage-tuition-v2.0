@@ -25,4 +25,8 @@
     <color name="blue">#75C8FF</color>
     <color name="myblue">#002BDC</color>
     <color name="mypurple">#FF00FF</color>
+
+    <color name="chat_theme_color">#2176FF</color>
+    <color name="chat_theme_color_8">#142176FF</color>
+
 </resources>

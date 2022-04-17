@@ -187,7 +187,7 @@ public class Home_Tutor extends AppCompatActivity implements BottomNavigationVie
                 break;
 
             case R.id.chat_bottom_nav_tutor:
-                fragment = new Chat_Fragment();
+                fragment = new Chat_Fragment_Tutor();
                 item.setChecked(true);
                 break;
 

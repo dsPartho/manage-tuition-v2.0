@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -20,6 +21,12 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Home_Guardian extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -34,6 +41,13 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
     ActionBarDrawerToggle Toggle;
     Integer count = 0;
     private AlertDialog.Builder logOutBuilder,exitAppBuilder;
+
+
+    // 16 April 2022, Partho
+    TextView username;
+
+    FirebaseUser firebaseUser;
+    DatabaseReference reference;
 
 
     @Override
@@ -66,6 +80,27 @@ public class Home_Guardian extends AppCompatActivity implements BottomNavigation
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_view_headline_24);
         // drawerLayout.closeDrawer(GravityCompat.START);
+
+        //Partho 16 april firebase
+        /*
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        String userID = firebaseUser.getUid();
+        reference = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("TutorUser").child(userID);
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ChatUser user = snapshot.getValue(ChatUser.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        })
+        */
+
+        // er uporer kaj ami korsi, nicher ta sagar er ager
         if(fragment== null){
             loadFragments(new Home_Fragment());
         }

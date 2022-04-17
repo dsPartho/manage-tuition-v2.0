@@ -171,7 +171,7 @@ public class TutorProfile extends AppCompatActivity {
                 //_BATCH = snapshot.child("batch").getValue(String.class);
                 _ACYEAR = snapshot.child("academicYear").getValue(String.class);
                 //_CURRSEM = snapshot.child("phoneNo").getValue(String.class);
-                _PICTURE = snapshot.child("Picture URL").getValue(String.class);
+                _PICTURE = snapshot.child("picture_URL").getValue(String.class);
 
                 firstNameEdit.setText(_FIRSTNAME);
                 lastNameEdit.setText(_LASTNAME);

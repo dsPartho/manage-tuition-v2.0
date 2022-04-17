@@ -244,7 +244,8 @@ public class TutorFragment1 extends Fragment {
                 });
 
                 userId = firebaseUser.getUid();
-                TutorUsers tutorUsers = new TutorUsers(role,firstname,lastname,email,pass,institution,finalGender,batch,academicYear,contactInfo);
+                //TutorUsers tutorUsers = new TutorUsers(role,firstname,lastname,email,pass,institution,finalGender,batch,academicYear,contactInfo);
+                TutorUsersByPartho tutorUsers = new TutorUsersByPartho(userId,"", role, firstname,lastname,email,pass,institution,finalGender,batch,academicYear,contactInfo);
                 SignInData signInData = new SignInData(email,pass,role);
 
                 FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("TutorUser").child(userId).setValue(tutorUsers).addOnCompleteListener(new OnCompleteListener<Void>() {

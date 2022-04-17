@@ -218,7 +218,8 @@ public class GuardianFragment1 extends Fragment {
                     }
                 });
                 userId = firebaseUser.getUid();
-                GuardianUsers guardianUsers = new GuardianUsers(role, firstname,lastname, s_email,s_pass,s_location, finalGender, contactInfo);
+                //GuardianUsers guardianUsers = new GuardianUsers(role, firstname,lastname, s_email,s_pass,s_location, finalGender, contactInfo);
+                GuardianUsersByPartho guardianUsers = new GuardianUsersByPartho(userId, "", role, firstname,lastname, s_email,s_pass,s_location, finalGender, contactInfo);
                 SignInData signInData = new SignInData(s_email,s_pass,role);
                 FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("GuardianUser").child(userId).setValue(guardianUsers).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

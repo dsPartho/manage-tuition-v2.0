@@ -169,7 +169,7 @@ public class GuardianProfile extends AppCompatActivity {
                 _LOCATION = snapshot.child("location").getValue(String.class);
                 _ROLE = snapshot.child("role").getValue(String.class);
                 _PHONE = snapshot.child("phoneNo").getValue(String.class);
-                _PICTURE = snapshot.child("Picture URL").getValue(String.class);
+                _PICTURE = snapshot.child("picture_URL").getValue(String.class);
 
                 firstNameEdit.setText(_FIRSTNAME);
                 lastNameEdit.setText(_LASTNAME);
@@ -290,7 +290,7 @@ public class GuardianProfile extends AppCompatActivity {
 
                                 String imgName = Objects.requireNonNull(uri).toString() ;
 
-                                databaseReference.child("Picture URL").setValue(imgName);
+                                databaseReference.child("picture_URL").setValue(imgName);
 
                             })
 

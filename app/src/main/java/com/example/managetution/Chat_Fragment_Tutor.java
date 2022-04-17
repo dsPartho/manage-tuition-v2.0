@@ -23,12 +23,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Chat_Fragment extends Fragment {
+public class Chat_Fragment_Tutor extends Fragment {
 
     private RecyclerView recyclerView;
 
-    private ChatUserAdapter userAdapter;
-    private List<TutorUsersByPartho> mUsers;
+    private ChatUserAdapterTutor userAdapter;
+    private List<GuardianUsersByPartho> mUsers;
     String _EMAIL;
 
     @Nullable
@@ -57,7 +57,7 @@ public class Chat_Fragment extends Fragment {
     private void readUsers(){
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String userID = firebaseUser.getUid();
-        DatabaseReference reference = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("TutorUser");
+        DatabaseReference reference = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("GuardianUser");
 //        DatabaseReference cuurUserReference = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("GuardianUser").child(userID);
 //
 //        cuurUserReference.addValueEventListener(new ValueEventListener() {
@@ -77,7 +77,7 @@ public class Chat_Fragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUsers.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    //TutorUsersByPartho user = snapshot.getValue(TutorUsersByPartho.class);
+                    //GuardianUsersByPartho user = snapshot.getValue(GuardianUsersByPartho.class);
                     //System.out.println("\nUser is HERE\n" + user + "\n\n");
 
                     String _firstname = snapshot.child("firstname").getValue(String.class);
@@ -87,14 +87,11 @@ public class Chat_Fragment extends Fragment {
                     String _gender = snapshot.child("gender").getValue(String.class);
                     String _pictureURL = snapshot.child("picture_URL").getValue(String.class);
                     String _password = snapshot.child("pass").getValue(String.class);
-                    String _institution = snapshot.child("institution").getValue(String.class);
-                    String _phoneNo = snapshot.child("contactInfo").getValue(String.class);
+                    String _location = snapshot.child("location").getValue(String.class);
+                    String _phoneNo = snapshot.child("phoneNo").getValue(String.class);
                     String _role = snapshot.child("role").getValue(String.class);
-                    String _acYear = snapshot.child("academicYear").getValue(String.class);
-                    String _batch = "25";//snapshot.child("batch").getValue(String.class);
 
-                    TutorUsersByPartho user = new TutorUsersByPartho(_id, _pictureURL, _role, _firstname, _lastname, _email,_password, _institution,_gender,_batch,_acYear,_phoneNo);
-
+                    GuardianUsersByPartho user = new GuardianUsersByPartho(_id,_pictureURL,_role,_firstname,_lastname,_email, _password, _location, _gender,_phoneNo);
 
                     assert user != null;
                     assert firebaseUser != null;
@@ -104,7 +101,7 @@ public class Chat_Fragment extends Fragment {
 //                    }
                 }
 
-                userAdapter = new ChatUserAdapter(getContext(), mUsers);
+                userAdapter = new ChatUserAdapterTutor(getContext(), mUsers);
                 recyclerView.setAdapter(userAdapter);
 
             }
