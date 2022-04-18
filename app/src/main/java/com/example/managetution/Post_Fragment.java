@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,11 +33,12 @@ import java.util.HashMap;
 
 public class Post_Fragment extends Fragment {
     private Button updatePostButton;
-    private EditText postText;
+    private EditText postText,LocationText;
+   private TextView Location;
     private String curDate , curTime,dateTime;
     private FirebaseAuth mAuth;
     private FirebaseUser firebaseUser;
-    private String postDetails,current_User,firstName,lastName,username;
+    private String postDetails,current_User,firstName,lastName,username,locationText;
     private FirebaseDatabase db;
     private DatabaseReference root;
     private DatabaseReference userDatabaseReference,postDatabaseReference;
@@ -53,8 +55,12 @@ public class Post_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 postDetails = postText.getText().toString();
+                locationText = LocationText.getText().toString().toLowerCase();
                 if(TextUtils.isEmpty(postDetails)){
                     Toast.makeText(getActivity(),"please Enter tuition requirements and Details", Toast.LENGTH_LONG).show();
+                }
+                if(TextUtils.isEmpty(locationText)){
+                    Toast.makeText(getActivity(),"please Enter tuition Location", Toast.LENGTH_LONG).show();
                 }
                 else{
                     Calendar calendarDate =  Calendar.getInstance();
@@ -81,7 +87,7 @@ public class Post_Fragment extends Fragment {
                             lastName =  guardianUsers.getLastname();
                             username = firstName +" " + lastName;
                             //String username = "sagar";
-                            PostSaveDetails postSaveData = new PostSaveDetails(current_User,curDate,curTime,postDetails,username,dateTime);
+                            PostSaveDetails postSaveData = new PostSaveDetails(current_User,curDate,curTime,postDetails,username,dateTime,locationText,current_User+dateTime);
                             FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("post").child(current_User+dateTime).setValue(postSaveData).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -132,5 +138,7 @@ public class Post_Fragment extends Fragment {
     public void initializations(){
         postText = (EditText) getView().findViewById(R.id.editMltTextId);
         updatePostButton = (Button)  getView().findViewById(R.id.PostButtonId);
+        LocationText = (EditText) getView().findViewById(R.id.PostlocationTextId);
+        Location = (TextView) getView().findViewById(R.id.PostlocationId);
     }
 }

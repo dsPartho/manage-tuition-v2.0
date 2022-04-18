@@ -55,6 +55,7 @@ public class TutorPostAdapter extends FirebaseRecyclerAdapter<PostSaveDetails,Tu
         holder.date.setText(" " +PostSavaDetails.getDate());
         holder.time.setText(" " + PostSavaDetails.getTime());
         holder.postDetails.setText(PostSavaDetails.getPostDetails());
+        holder.locationText.setText(PostSavaDetails.getLocation());
 
 
 
@@ -206,7 +207,7 @@ public class TutorPostAdapter extends FirebaseRecyclerAdapter<PostSaveDetails,Tu
     public class postShowViewHolder extends RecyclerView.ViewHolder{
 
         CircleImageView image;
-        TextView date, time, postDetails,username, hasUpdated;
+        TextView date, time, postDetails,username, hasUpdated,location,locationText;
         public Button sendTuitionRequestButton;
 
         public postShowViewHolder(@NonNull View itemView) {
@@ -218,6 +219,8 @@ public class TutorPostAdapter extends FirebaseRecyclerAdapter<PostSaveDetails,Tu
             date = itemView.findViewById(R.id.post_date_id);
             time = itemView.findViewById(R.id.post_time_id);
             postDetails = itemView.findViewById(R.id.user_post_details_id);
+            location = itemView.findViewById(R.id.PostlocationTutorId);
+            locationText = itemView.findViewById(R.id.PostlocationTutorTextId);
             //btmNav = itemView.findViewById(R.id.bo);
             sendTuitionRequestButton = itemView.findViewById(R.id.sendtuitionrequestbuttonId);
 

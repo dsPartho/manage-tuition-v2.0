@@ -42,6 +42,7 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
         holder.date.setText(" " +PostSavaDetails.getDate());
         holder.time.setText(" " + PostSavaDetails.getTime());
         holder.postDetails.setText(PostSavaDetails.getPostDetails());
+        holder.locationText.setText(PostSavaDetails.getLocation());
        /* holder.sendTuitionRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,7 +63,7 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
     public class postShowViewHolder extends RecyclerView.ViewHolder{
 
         CircleImageView image;
-        TextView date, time, postDetails,username, hasUpdated;
+        TextView date, time, postDetails,username, hasUpdated,location, locationText;
 
         public postShowViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,6 +74,8 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
             date = itemView.findViewById(R.id.post_date_id);
             time = itemView.findViewById(R.id.post_time_id);
             postDetails = itemView.findViewById(R.id.user_post_details_id);
+            location = itemView.findViewById(R.id.guardianPostlocationId);
+            locationText = itemView.findViewById(R.id.guardianPostlocationTextId);
             //btmNav = itemView.findViewById(R.id.bo);
             /*sendTuitionRequestButton = itemView.findViewById(R.id.sendtuitionrequestbuttonId);
             sendTuitionRequestButton.setOnClickListener(new View.OnClickListener() {

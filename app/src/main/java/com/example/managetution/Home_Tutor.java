@@ -225,6 +225,7 @@ public class Home_Tutor extends AppCompatActivity implements BottomNavigationVie
             //break;
 
             case R.id.search_bottom_nav_tutor:
+                fragment = new Search_Tuition_Fragment();
                 Toast.makeText(this, "search bar Pressed!!", Toast.LENGTH_SHORT).show();
                 break;
 
