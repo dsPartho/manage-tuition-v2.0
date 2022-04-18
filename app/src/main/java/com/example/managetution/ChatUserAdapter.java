@@ -15,9 +15,9 @@ import java.util.List;
 public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<TutorUsersByPartho> mUsers;
+    private List<ChatReference> mUsers;
 
-    public ChatUserAdapter(Context mContext, List<TutorUsersByPartho> mUsers){
+    public ChatUserAdapter(Context mContext, List<ChatReference> mUsers){
         this.mUsers = mUsers;
         this.mContext = mContext;
     }
@@ -42,15 +42,15 @@ public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TutorUsersByPartho user = mUsers.get(position);
-        holder.username.setText(user.getFirstname());
+        ChatReference user = mUsers.get(position);
+        holder.username.setText(user.getTutorUserName());
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, MessageActivity.class);
-                intent.putExtra("userID", user.getId());
+                intent.putExtra("userID", user.getTutorUserId());
                 mContext.startActivity(intent);
             }
         });

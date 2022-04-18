@@ -110,7 +110,7 @@ public class TutorPostAdapter extends FirebaseRecyclerAdapter<PostSaveDetails,Tu
                                             tutorUserName = value;
                                             ChatReference chatReference= new ChatReference(firstName,lastName,tutorUserId,guardianUserName,tutorUserName);
                                             String uniqueID = UUID.randomUUID().toString();
-                                            FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("GuardianUser").child(chat_userId).child("notification").child(uniqueID).setValue(chatReference).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("GuardianUser").child(chat_userId).child("notification").child(tutorUserId).setValue(chatReference).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if(task.isSuccessful()){

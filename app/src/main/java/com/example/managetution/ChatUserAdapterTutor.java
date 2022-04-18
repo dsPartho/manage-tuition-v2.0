@@ -15,9 +15,9 @@ import java.util.List;
 public class ChatUserAdapterTutor extends RecyclerView.Adapter<ChatUserAdapterTutor.ViewHolder> {
 
     private Context mContext;
-    private List<GuardianUsersByPartho> mUsers;
+    private List<NotificationColabartion> mUsers;
 
-    public ChatUserAdapterTutor(Context mContext, List<GuardianUsersByPartho> mUsers){
+    public ChatUserAdapterTutor(Context mContext, List<NotificationColabartion> mUsers){
         this.mUsers = mUsers;
         this.mContext = mContext;
     }
@@ -42,15 +42,15 @@ public class ChatUserAdapterTutor extends RecyclerView.Adapter<ChatUserAdapterTu
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        GuardianUsersByPartho user = mUsers.get(position);
-        holder.username.setText(user.getFirstname());
+        NotificationColabartion user = mUsers.get(position);
+        holder.username.setText(user.getGuardianUserName());
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, MessageActivity.class);
-                intent.putExtra("userID", user.getId());
+                intent.putExtra("userID", user.getGuardianUserId());
                 mContext.startActivity(intent);
             }
         });

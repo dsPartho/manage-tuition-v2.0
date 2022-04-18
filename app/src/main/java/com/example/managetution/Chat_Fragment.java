@@ -28,7 +28,7 @@ public class Chat_Fragment extends Fragment {
     private RecyclerView recyclerView;
 
     private ChatUserAdapter userAdapter;
-    private List<TutorUsersByPartho> mUsers;
+    private List<ChatReference> mUsers;
     String _EMAIL;
 
     @Nullable
@@ -57,7 +57,7 @@ public class Chat_Fragment extends Fragment {
     private void readUsers(){
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String userID = firebaseUser.getUid();
-        DatabaseReference reference = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("TutorUser");
+        DatabaseReference reference = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("GuardianUser").child(userID).child("notification");
 //        DatabaseReference cuurUserReference = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("GuardianUser").child(userID);
 //
 //        cuurUserReference.addValueEventListener(new ValueEventListener() {
@@ -73,6 +73,34 @@ public class Chat_Fragment extends Fragment {
 //        });
 
         reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mUsers.clear();
+                //if(snapshot.exists()){
+                    for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                        ChatReference user = dataSnapshot.getValue(ChatReference.class);
+
+
+                        assert user != null;
+                        assert firebaseUser != null;
+                        mUsers.add(user);
+
+
+                    }
+               // }
+                userAdapter = new ChatUserAdapter(getContext(), mUsers);
+                recyclerView.setAdapter(userAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+       /* reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUsers.clear();
@@ -113,6 +141,6 @@ public class Chat_Fragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        });*/
     }
 }

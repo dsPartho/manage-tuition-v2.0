@@ -33,7 +33,7 @@ public class NotificationGuardianShowAdapter extends FirebaseRecyclerAdapter<Cha
     private FirebaseDatabase firebaseDatabase;
     private FirebaseUser firebaseUser;
     private DatabaseReference acceptDataBaseRef,decDataBaseRef;
-    public String guardianUserName,tutorUserName,userId;
+    public String guardianUserName,tutorUserName,userId,cur_userId;
 
 
 
@@ -49,6 +49,7 @@ public class NotificationGuardianShowAdapter extends FirebaseRecyclerAdapter<Cha
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
         userId = firebaseUser.getUid();
+        cur_userId = firebaseUser.getUid();
 
         firebaseDatabase = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/");
         holder.acceptButton.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +59,7 @@ public class NotificationGuardianShowAdapter extends FirebaseRecyclerAdapter<Cha
                 holder.acceptButton.setVisibility(View.GONE);
                 holder.declineButton.setVisibility(View.GONE);
                 String uniqueID = UUID.randomUUID().toString();
-                String type = "Accept";
+                String type = " Accept";
 
                 firebaseDatabase.getReference("GuardianUser").child(userId).child("notification").addValueEventListener(new ValueEventListener() {
                     @Override
@@ -69,7 +70,22 @@ public class NotificationGuardianShowAdapter extends FirebaseRecyclerAdapter<Cha
                                 if(chatReference.getTutorUserName().equals(model.getTutorUserName())){
                                     String id = chatReference.getTutorUserId();
                                     NotificationColabartion notificationColabartion = new NotificationColabartion(model.getGuardianUserName(),userId,type);
-                                    firebaseDatabase.getReference("TutorUser").child(id).child("notification").child(uniqueID).setValue(notificationColabartion).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    firebaseDatabase.getReference("TutorUser").child(id).child("chatKorboErSathe").child(userId).setValue(notificationColabartion).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                if(task.isSuccessful()){
+                                                    Toast.makeText(activity, "databaseCreated", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(activity, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                    firebaseDatabase.getReference("TutorUser").child(id).child("notification").child(userId).setValue(notificationColabartion).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
@@ -119,7 +135,7 @@ public class NotificationGuardianShowAdapter extends FirebaseRecyclerAdapter<Cha
                 holder.acceptButton.setVisibility(View.GONE);
                 holder.declineButton.setVisibility(View.GONE);
                 String uniqueID = UUID.randomUUID().toString();
-                String type = "Decline";
+                String type = " Decline";
                 firebaseDatabase.getReference("GuardianUser").child(userId).child("notification").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -129,7 +145,7 @@ public class NotificationGuardianShowAdapter extends FirebaseRecyclerAdapter<Cha
                                 if(chatReference.getTutorUserName().equals(model.getTutorUserName())){
                                     String id = chatReference.getTutorUserId();
                                     NotificationColabartion notificationColabartion = new NotificationColabartion(model.getGuardianUserName(),userId,type);
-                                    firebaseDatabase.getReference("TutorUser").child(id).child("notification").child(uniqueID).setValue(notificationColabartion).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    firebaseDatabase.getReference("TutorUser").child(id).child("notification").child(userId).setValue(notificationColabartion).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
@@ -143,6 +159,10 @@ public class NotificationGuardianShowAdapter extends FirebaseRecyclerAdapter<Cha
                                             Toast.makeText(activity, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
                                         }
                                     });
+                                   /* System.out.println("us" + cur_userId);
+                                    String visit_user_id =firebaseDatabase.getReference("GuardianUser").child(cur_userId).child("notification").getKey();
+                                    System.out.println("key " + visit_user_id);
+                                    firebaseDatabase.getReference("GuardianUser").child(userId).child("notification").child(visit_user_id).setValue(null);*/
                                     break;
                                 }
                             }

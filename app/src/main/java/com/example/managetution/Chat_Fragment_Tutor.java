@@ -28,7 +28,7 @@ public class Chat_Fragment_Tutor extends Fragment {
     private RecyclerView recyclerView;
 
     private ChatUserAdapterTutor userAdapter;
-    private List<GuardianUsersByPartho> mUsers;
+    private List<NotificationColabartion> mUsers;
     String _EMAIL;
 
     @Nullable
@@ -57,7 +57,8 @@ public class Chat_Fragment_Tutor extends Fragment {
     private void readUsers(){
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String userID = firebaseUser.getUid();
-        DatabaseReference reference = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("GuardianUser");
+        DatabaseReference reference = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("TutorUser").child(userID).child("chatKorboErSathe");
+        System.out.println(userID);
 //        DatabaseReference cuurUserReference = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("GuardianUser").child(userID);
 //
 //        cuurUserReference.addValueEventListener(new ValueEventListener() {
@@ -71,8 +72,37 @@ public class Chat_Fragment_Tutor extends Fragment {
 //
 //            }
 //        });
-
         reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mUsers.clear();
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
+
+                    NotificationColabartion guardianListOnTutor = dataSnapshot.getValue(NotificationColabartion.class);
+                    System.out.println("g" + guardianListOnTutor.getGuardianUserName());
+                    //if(guardianListOnTutor.getType().equals("Accept")){
+                        assert guardianListOnTutor != null;
+                        assert firebaseUser != null;
+                        mUsers.add(guardianListOnTutor);
+                   // }
+
+
+                }
+
+                userAdapter = new ChatUserAdapterTutor(getContext(), mUsers);
+                recyclerView.setAdapter(userAdapter);
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+      /*  reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUsers.clear();
@@ -110,6 +140,6 @@ public class Chat_Fragment_Tutor extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        });*/
     }
 }
