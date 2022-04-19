@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogIn;
     String current_User_Id,user_role;
     DatabaseReference userDatabaseReference;
-    TextView btnSignUp;
+    TextView btnSignUp, btnForgetPassword;
     FirebaseAuth mAuth;
 
 
@@ -46,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         logpass = (TextInputLayout) findViewById(R.id.layoutPass);
         btnLogIn = findViewById(R.id.btnLogin);
         btnSignUp = findViewById(R.id.txtSignUp);
+        btnForgetPassword = findViewById(R.id.txtForgotPassword);
         mAuth = FirebaseAuth.getInstance();
 
 
@@ -62,6 +63,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 loginUser();
+            }
+        });
+
+        btnForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, ForgetPassword.class));
             }
         });
 
