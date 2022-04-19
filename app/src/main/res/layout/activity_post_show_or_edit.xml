@@ -120,6 +120,25 @@
 
         </LinearLayout>
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/guardianPostStatusPEId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Post Status : "
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="available"
+                android:id="@+id/isAvailableED"/>
+
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

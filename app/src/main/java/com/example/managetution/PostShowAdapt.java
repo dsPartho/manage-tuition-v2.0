@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,6 +45,7 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
         holder.time.setText(" " + PostSavaDetails.getTime());
         holder.postDetails.setText(PostSavaDetails.getPostDetails());
         holder.locationText.setText(PostSavaDetails.getLocation());
+        holder.status.setText(PostSavaDetails.getPostStatus());
 
        /* postUserId = PostSavaDetails.getUserId();
         sendDate = PostSavaDetails.getDate();
@@ -65,6 +67,7 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
                 intent.putExtra("time",PostSavaDetails.getTime());
                 intent.putExtra("postUserId",userID);
                 intent.putExtra("postId",PostSavaDetails.getPostId());
+                intent.putExtra("postStatus",PostSavaDetails.getPostStatus());
                 activity.startActivity(intent);
                 activity.finish();
 
@@ -93,7 +96,8 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
     public class postShowViewHolder extends RecyclerView.ViewHolder{
 
         CircleImageView image;
-        TextView date, time, postDetails,username, hasUpdated,location, locationText;
+        TextView date, time, postDetails,username, hasUpdated,location, locationText,status;
+        //Switch isAvailable;
         Button editButton;
 
         public postShowViewHolder(@NonNull View itemView) {
@@ -108,6 +112,8 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
             location = itemView.findViewById(R.id.guardianPostlocationId);
             locationText = itemView.findViewById(R.id.guardianPostlocationTextId);
             editButton = itemView.findViewById(R.id.editId);
+            status = itemView.findViewById(R.id.guardianPostStatusId);
+            status = itemView.findViewById(R.id.postStatusChecked);
             //btmNav = itemView.findViewById(R.id.bo);
             /*sendTuitionRequestButton = itemView.findViewById(R.id.sendtuitionrequestbuttonId);
             sendTuitionRequestButton.setOnClickListener(new View.OnClickListener() {

@@ -236,6 +236,9 @@ public class TutorFragment1 extends Fragment {
                             Intent i = new Intent(getActivity(), LoginActivity.class);
                             i.setFlags( Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(i);
+                            getActivity().finish();
+                           // getFragmentManager().beginTransaction().replace(getActivity(),LoginActivity.class).
+
                         }else{
                             Toast.makeText(getActivity(),task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,15 +31,17 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.UUID;
 
 public class Post_Fragment extends Fragment {
     private Button updatePostButton;
     private EditText postText,LocationText;
-   private TextView Location;
-    private String curDate , curTime,dateTime;
+   private TextView Location,postStatusText,postStatusChecked;
+    private String curDate , curTime,dateTime,postStatus;
     private FirebaseAuth mAuth;
     private FirebaseUser firebaseUser;
+    private Switch isAvailable;
     private String postDetails,current_User,firstName,lastName,username,locationText;
     private FirebaseDatabase db;
     private DatabaseReference root;
@@ -57,12 +60,31 @@ public class Post_Fragment extends Fragment {
             public void onClick(View view) {
                 postDetails = postText.getText().toString();
                 locationText = LocationText.getText().toString().toLowerCase();
+                if(isAvailable.isChecked()){
+                    //postStatusChecked.setText("available");
+                    postStatus = "available";
+                    //System.out.println("postStatusava" + "available");
+                }
+                /*else if(!isAvaiable.isChecked()){
+                    //postStatusChecked.setText("onHold");
+                    //postStatus = postStatusChecked.getText().toString();
+                    postStatus = "available";
+                    System.out.println("postStatusonHold" + "onHold");
+                }*/
+
+
                 if(TextUtils.isEmpty(postDetails)){
                     Toast.makeText(getActivity(),"please Enter tuition requirements and Details", Toast.LENGTH_LONG).show();
                 }
                 if(TextUtils.isEmpty(locationText)){
                     Toast.makeText(getActivity(),"please Enter tuition Location", Toast.LENGTH_LONG).show();
                 }
+                if(postStatus==null){
+                    Toast.makeText(getActivity(), "please make post Status Available", Toast.LENGTH_SHORT).show();
+                }
+               /* if(TextUtils.isEmpty(postStatus)){
+                    Toast.makeText(getActivity(),"please Enter post Status available or onHold", Toast.LENGTH_LONG).show();
+                }*/
                 else{
                     Calendar calendarDate =  Calendar.getInstance();
                     SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
@@ -90,7 +112,7 @@ public class Post_Fragment extends Fragment {
                             lastName =  guardianUsers.getLastname();
                             username = firstName +" " + lastName;
                             //String username = "sagar";
-                            PostSaveDetails postSaveData = new PostSaveDetails(current_User,curDate,curTime,postDetails,username,dateTime,locationText,uniqueID);
+                            PostSaveDetails postSaveData = new PostSaveDetails(current_User,curDate,curTime,postDetails,username,dateTime,locationText,uniqueID,postStatus);
                             FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("GuardianUserOwnPost").child(current_User).child(uniqueID).setValue(postSaveData).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -98,7 +120,7 @@ public class Post_Fragment extends Fragment {
 
                                 }
                             });
-                            FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("post").child(current_User+dateTime).setValue(postSaveData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("post").child(uniqueID).setValue(postSaveData).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
@@ -150,5 +172,8 @@ public class Post_Fragment extends Fragment {
         updatePostButton = (Button)  getView().findViewById(R.id.PostButtonId);
         LocationText = (EditText) getView().findViewById(R.id.PostlocationTextId);
         Location = (TextView) getView().findViewById(R.id.PostlocationId);
+        postStatusText = (TextView) getView().findViewById(R.id.guardianPostStatusPId);
+        isAvailable = (Switch) getView().findViewById(R.id.isAvailable);
+        //postStatusChecked = (TextView) getView().findViewById(R.id.postStatusChecked);
     }
 }
