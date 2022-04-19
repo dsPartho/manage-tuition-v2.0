@@ -3,6 +3,8 @@ package com.example.managetution;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -137,6 +139,41 @@ public class Home_Tutor extends AppCompatActivity implements BottomNavigationVie
                         });
                         // show  dialogue
                         logOutBuilder.show();
+                        return true;
+
+                    case R.id.nav_contact_us:
+                        AlertDialog.Builder contactUsBuilder = new AlertDialog.Builder(Home_Tutor.this);
+                        contactUsBuilder.setTitle("Contact Us Through Mobile");
+                        contactUsBuilder.setMessage("Phone No 1: 01521551806\nPhone No 2: 01572181261");
+
+                        contactUsBuilder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+
+                        contactUsBuilder.show();
+                        return true;
+
+                    case R.id.nav_share:
+                        TextView tv  = new TextView(Home_Tutor.this);
+                        tv.setMovementMethod(LinkMovementMethod.getInstance());
+                        tv.setTextSize(18);
+                        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        tv.setText(Html.fromHtml("<br><a href='https://github.com/dsPartho/manage-tuition-v2.0'> Click Here</a>"));
+                        AlertDialog.Builder shareBtnBuilder = new AlertDialog.Builder(Home_Tutor.this);
+                        shareBtnBuilder.setTitle("Share The App If You Like It!");
+                        //shareBtnBuilder.setMessage(Html.fromHtml("<br><a href='https://github.com/dsPartho/manage-tuition-v2.0'>Click Here</a>"));
+                        shareBtnBuilder.setView(tv);
+                        shareBtnBuilder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+
+                        shareBtnBuilder.show();
                         return true;
                 }
 

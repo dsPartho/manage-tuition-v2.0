@@ -125,8 +125,12 @@ public class Post_Fragment extends Fragment {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
                                         //Toast.makeText(getActivity(),"postData inserted into databasse",Toast.LENGTH_SHORT).show();
-                                        getFragmentManager().beginTransaction().replace(R.id.frame_layout,new Home_Fragment()).addToBackStack(null).commit();
+                                        //NEXT LINE 20 April
+                                        //getFragmentManager().beginTransaction().replace(R.id.frame_layout,new Home_Fragment()).addToBackStack(null).commit();
                                         //getFragmentManager().beginTransaction().remove().commit();
+                                        Intent newIntent = new Intent(getContext(), Home_Guardian.class);
+                                        startActivity(newIntent);
+                                        getActivity().finish();
                                     }
                                     else{
                                         //Toast.makeText(getActivity(),"postData not inserted into databasse",Toast.LENGTH_SHORT).show();
