@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ManageTution">
         <activity
+            android:name=".PostShowOrEdit"
+            android:exported="false" />
+        <activity
             android:name=".MessageActivity"
             android:exported="false" />
         <activity

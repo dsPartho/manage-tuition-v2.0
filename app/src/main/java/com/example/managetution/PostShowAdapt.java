@@ -23,10 +23,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostShowAdapt.postShowViewHolder> {
     private FirebaseAuth mAuth;
-    private String currentUser;
+    private String currentUser,postUserId,sendDate,sendTime,postId;
     private  FirebaseUser firebaseUser;
     //private chatInterface chatInterface;
     BottomNavigationView btmNav;
+
 
 
 
@@ -43,6 +44,33 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
         holder.time.setText(" " + PostSavaDetails.getTime());
         holder.postDetails.setText(PostSavaDetails.getPostDetails());
         holder.locationText.setText(PostSavaDetails.getLocation());
+
+       /* postUserId = PostSavaDetails.getUserId();
+        sendDate = PostSavaDetails.getDate();
+        sendTime = PostSavaDetails.getTime();
+        postId = PostSavaDetails.getPostId();*/
+        mAuth = FirebaseAuth.getInstance();
+        String userID = mAuth.getCurrentUser().getUid();
+        holder.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                // activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Chat_Fragment()).commit();
+
+                Intent intent = new Intent(view.getContext(),PostShowOrEdit.class);
+                intent.putExtra("userName",PostSavaDetails.getUsername());
+                intent.putExtra("PostDetails",PostSavaDetails.getPostDetails());
+                intent.putExtra("locationText",PostSavaDetails.getLocation());
+                intent.putExtra("date",PostSavaDetails.getDate());
+                intent.putExtra("time",PostSavaDetails.getTime());
+                intent.putExtra("postUserId",userID);
+                intent.putExtra("postId",PostSavaDetails.getPostId());
+                activity.startActivity(intent);
+                activity.finish();
+
+            }
+        });
+
        /* holder.sendTuitionRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,6 +78,8 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Notification_Fragment()).addToBackStack(null).commit();
             }
         });*/
+
+
     }
 
     @NonNull
@@ -64,6 +94,7 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
 
         CircleImageView image;
         TextView date, time, postDetails,username, hasUpdated,location, locationText;
+        Button editButton;
 
         public postShowViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,6 +107,7 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
             postDetails = itemView.findViewById(R.id.user_post_details_id);
             location = itemView.findViewById(R.id.guardianPostlocationId);
             locationText = itemView.findViewById(R.id.guardianPostlocationTextId);
+            editButton = itemView.findViewById(R.id.editId);
             //btmNav = itemView.findViewById(R.id.bo);
             /*sendTuitionRequestButton = itemView.findViewById(R.id.sendtuitionrequestbuttonId);
             sendTuitionRequestButton.setOnClickListener(new View.OnClickListener() {
@@ -86,21 +118,32 @@ public class PostShowAdapt extends FirebaseRecyclerAdapter<PostSaveDetails,PostS
 
                 }
             });*/
-            itemView.setOnClickListener(new View.OnClickListener() {
+           // System.out.println("post" + postUserId);
+           // System.out.println("Adapter " + sendDate);
+           // System.out.println("Adapter " + sendTime);
+           /* itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                   // activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Chat_Fragment()).commit();
-                    Intent intent = new Intent(view.getContext(),PostShowDetailsActivity.class);
-                    intent.putExtra("chat","1");
+                    // activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Chat_Fragment()).commit();
+
+                    Intent intent = new Intent(view.getContext(),PostShowOrEdit.class);
+                    intent.putExtra("userName",username.getText());
+                    intent.putExtra("PostDetails",postDetails.getText());
+                    intent.putExtra("locationText",locationText.getText());
+                    intent.putExtra("date",sendDate);
+                    intent.putExtra("time",sendTime);
+                    intent.putExtra("postUserId",postUserId);
+                    intent.putExtra("postId",postId+date+time);
                     activity.startActivity(intent);
                     activity.finish();
 
 
 
-                   // itemView.setTag(vie);
+                    // itemView.setTag(vie);
                 }
-            });
+            });*/
+
         }
     }
 
