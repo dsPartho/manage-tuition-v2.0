@@ -19,21 +19,21 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostShowOrEdit extends AppCompatActivity {
      private  CircleImageView image;
-     private TextView date, time, username, hasUpdated,location,userName;
+     private TextView date, time, username, hasUpdated,location;
      private EditText postDetailss,locationTexts;
      private Button editDoneButton, deletePostButton;
      private FirebaseAuth mAuth;
      private FirebaseUser firebaseUser;
      private FirebaseDatabase firebaseDatabase;
-     private DatabaseReference databaseReference;
-     private  String postId,postUserId,userId;
+     private DatabaseReference databaseReference,ref;
+     private  String postId,postUserId,userId,userName,postDetails,locations,fDate,fTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_show_or_edit);
         image = findViewById(R.id.circleImage_user_Post_idED);
-        userName = findViewById(R.id.post_userName_txt_IdED);
+        username = findViewById(R.id.post_userName_txt_IdED);
         date = findViewById(R.id.post_date_idED);
         hasUpdated = findViewById(R.id.has_updated_post_idED);
         time = findViewById(R.id.post_time_idED);
@@ -48,16 +48,16 @@ public class PostShowOrEdit extends AppCompatActivity {
 
         //getting Value from previous post
         Intent intent = getIntent();
-        String username = intent.getStringExtra("userName");
-        String postDetails = intent.getStringExtra("PostDetails");
-        String location = intent.getStringExtra("locationText");
-        String fDate = intent.getStringExtra("date");
-        String fTime = intent.getStringExtra("time");
+        userName= intent.getStringExtra("userName");
+        postDetails = intent.getStringExtra("PostDetails");
+        locations = intent.getStringExtra("locationText");
+        fDate = intent.getStringExtra("date");
+        fTime = intent.getStringExtra("time");
         postId = intent.getStringExtra("postId");
         postUserId = intent.getStringExtra("postUserId");
         postDetailss.setText(postDetails, TextView.BufferType.EDITABLE);
-        userName.setText(username);
-        locationTexts.setText(location);
+        username.setText(userName);
+        locationTexts.setText(locations);
         date.setText(fDate);
         time.setText(fTime);
          //postId = userId + fDate + fTime;
@@ -69,6 +69,8 @@ public class PostShowOrEdit extends AppCompatActivity {
         editDoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                firebaseDatabase.getReference("GuardianUserOwnPost").child(userId).child(postId).child("postDetails").setValue(postDetailss.getText().toString());
+                firebaseDatabase.getReference("GuardianUserOwnPost").child(userId).child(postId).child("location").setValue(locationTexts.getText().toString());
                 databaseReference.child("postDetails").setValue(postDetailss.getText().toString());
                 databaseReference.child("location").setValue(locationTexts.getText().toString());
                 Intent newIntent = new Intent(getApplicationContext(),Home_Guardian.class);
@@ -80,6 +82,7 @@ public class PostShowOrEdit extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 databaseReference.removeValue();
+                firebaseDatabase.getReference("GuardianUserOwnPost").child(userId).child(postId).removeValue();
                 Intent newIntent = new Intent(getApplicationContext(),Home_Guardian.class);
                 startActivity(newIntent);
                 finish();

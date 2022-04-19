@@ -61,7 +61,7 @@ public class Home_Fragment extends Fragment {
         firebaseUser = mAuth.getCurrentUser();
         String userId = firebaseUser.getUid();
         firebaseDatabase = FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        databaseReference =  firebaseDatabase.getReference("post");
+        databaseReference =  firebaseDatabase.getReference("GuardianUserOwnPost").child(userId);
         databaseReference.keepSynced(true);
 
         FirebaseRecyclerOptions<PostSaveDetails> options =

@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class Post_Fragment extends Fragment {
     private Button updatePostButton;
@@ -71,7 +72,9 @@ public class Post_Fragment extends Fragment {
                     SimpleDateFormat currentTime = new SimpleDateFormat("HH-mm");
                     curTime =   currentTime.format(calendarDate.getTime());
 
-                    dateTime = curDate + curTime;
+
+                    dateTime = curDate+curTime;
+                    String uniqueID = UUID.randomUUID().toString();
                    /* firstName = userDatabaseReference.child("firstname").toString();
                     lastName = userDatabaseReference.child("lastname").toString();
                     username = firstName+lastName;*/
@@ -87,13 +90,14 @@ public class Post_Fragment extends Fragment {
                             lastName =  guardianUsers.getLastname();
                             username = firstName +" " + lastName;
                             //String username = "sagar";
-                            PostSaveDetails postSaveData = new PostSaveDetails(current_User,curDate,curTime,postDetails,username,dateTime,locationText,current_User+dateTime);
-                            /*FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("GuardianUser").child(current_User).child("post").child(current_User+dateTime).setValue(postSaveData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            PostSaveDetails postSaveData = new PostSaveDetails(current_User,curDate,curTime,postDetails,username,dateTime,locationText,uniqueID);
+                            FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("GuardianUserOwnPost").child(current_User).child(uniqueID).setValue(postSaveData).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
+                                    //Toast.makeText(getActivity(), "complete", Toast.LENGTH_SHORT).show();
 
                                 }
-                            });*/
+                            });
                             FirebaseDatabase.getInstance("https://managetution-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("post").child(current_User+dateTime).setValue(postSaveData).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -103,7 +107,7 @@ public class Post_Fragment extends Fragment {
                                         //getFragmentManager().beginTransaction().remove().commit();
                                     }
                                     else{
-                                        Toast.makeText(getActivity(),"postData not inserted into databasse",Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(getActivity(),"postData not inserted into databasse",Toast.LENGTH_SHORT).show();
                                     }
 
                                 }
